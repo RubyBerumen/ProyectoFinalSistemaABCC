@@ -3,11 +3,11 @@ package modelo;
 public class Venta {
 	private int idVenta;
 	private String productos;
-	private int fecha;
+	private String fecha;
 	private String hora;
 	private double cantidad;
 	
-	public Venta(int idVenta, String productos, int fecha, String hora, double cantidad) {
+	public Venta(int idVenta, String productos, String fecha, String hora, double cantidad) {
 		super();
 		this.idVenta = idVenta;
 		this.productos = productos;
@@ -31,10 +31,10 @@ public class Venta {
 		this.productos = productos;
 	}
 
-	public int getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
-	public void setFecha(int fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 
