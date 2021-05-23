@@ -15,12 +15,12 @@ class Login extends JFrame{
 	JButton btnIngresar;
 	BufferedImage imagen;
 	JLabel imagen1;
-	
+	JComboBox <String> cmbTipo;
 	
 	public Login() throws IOException {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setSize(300,450);
+		setSize(300,500);
 		setBackground(new Color(165,202,210));
 		setLocationRelativeTo(null);
 		setTitle("Ingresar");
@@ -34,6 +34,7 @@ class Login extends JFrame{
 		
 		lblUsuario = new JLabel("Usuario");
 		lblUsuario.setBounds(50, 180, 100, 25);
+		lblUsuario.setFont(new Font("Berlin Sans FB", Font.PLAIN, 16));
 		add(lblUsuario);
 		
 		jtfUsuario = new JTextField();
@@ -42,17 +43,31 @@ class Login extends JFrame{
 		
 		lblContraseña = new JLabel("Contraseña");
 		lblContraseña.setBounds(50, 250, 100, 25);
+		lblContraseña.setFont(new Font("Berlin Sans FB", Font.PLAIN, 16));
 		add(lblContraseña);
 		
 		jpfContraseña = new JPasswordField();
 		jpfContraseña.setBounds(50, 280, 185, 25);
 		add(jpfContraseña);
 		
+		String tipo[] = {"Selecciona tipo de usuario...","Gerente","Empleado"};
+		cmbTipo = new JComboBox<String>(tipo);
+		cmbTipo.setBounds(50, 325, 185, 30);
+		cmbTipo.setFont(new Font("Berlin Sans FB", Font.PLAIN, 16));
+		cmbTipo.setBackground(new Color(133,69,107));
+		cmbTipo.setForeground(new Color(212,212,212));
+		add(cmbTipo);
+		
 		btnIngresar = new JButton("Ingresar");
-		btnIngresar.setBounds(95, 330, 100, 25);
+		btnIngresar.setBounds(95, 380, 100, 35);
 		btnIngresar.setBackground(new Color(133,69,107));
 		btnIngresar.setForeground(new Color(212,212,212));
+		btnIngresar.setFont(new Font("Berlin Sans FB", Font.PLAIN, 20));
 		add(btnIngresar);	
+		
+		
+		
+		
 		
 	}
 	
