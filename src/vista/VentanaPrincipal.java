@@ -293,13 +293,13 @@ class Ventana extends JFrame{
 		componentesProductos(coP);
 		
 		//USUARIOS-------------------------------------------------------
-		aU = crearIF(aU, "Usuarios", "Agregar", 500, 300);
+		aU = crearIF(aU, "Usuarios", "Agregar", 400, 300);
 		componentesUsuarios(aU);
-		bU = crearIF(bU, "Usuarios", "Eliminar", 500, 300);
+		bU = crearIF(bU, "Usuarios", "Eliminar", 400, 300);
 		componentesUsuarios(bU);
-		cU = crearIF(cU, "Usuarios", "Modificar", 500, 300);
+		cU = crearIF(cU, "Usuarios", "Modificar", 400, 300);
 		componentesUsuarios(cU);
-		coU = crearIF(coU, "Usuarios", "Buscar", 500, 300);
+		coU = crearIF(coU, "Usuarios", "Buscar", 400, 300);
 		componentesUsuarios(coU);
 		
 		//-----------------------------------------------------------------
@@ -374,7 +374,56 @@ class Ventana extends JFrame{
 		cmbTipo.setForeground(grisClaro);
 		agregarComponente(cmbTipo, 20, 215, 195, 30, inf);
 		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBackground(moradoObscuro);
+		btnBorrar.setForeground(grisClaro);
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtNoUsuario.setText("");
+				txtNombre.setText("");
+				txtContraseña.setText("");
+				cmbTipo.setSelectedItem("Selecciona tipo de usuario...");
+			}
+		});
+		agregarComponente(btnBorrar, 230, 180, 140, 25, inf);
 		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBackground(moradoObscuro);
+		btnCancelar.setForeground(grisClaro);
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				inf.setVisible(false);
+			}
+		});
+		agregarComponente(btnCancelar, 230, 220, 140, 25, inf);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(moradoObscuro);
+		btnBuscar.setForeground(grisClaro);
+		
+		if(inf==aU) {
+			JButton btnAgregar = new JButton("Agregar");
+			btnAgregar.setBackground(moradoObscuro);
+			btnAgregar.setForeground(grisClaro);
+			agregarComponente(btnAgregar, 230, 100, 140, 25, inf);
+		}else if(inf==bU) {
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+			JButton btnEliminar = new JButton("Eliminar");
+			btnEliminar.setBackground(moradoObscuro);
+			btnEliminar.setForeground(grisClaro);
+			agregarComponente(btnEliminar, 230, 140, 140, 25, inf);
+		}else if(inf==cU) {
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+			JButton btnGuardar = new JButton("Guardar cambios");
+			btnGuardar.setBackground(moradoObscuro);
+			btnGuardar.setForeground(grisClaro);
+			agregarComponente(btnGuardar, 230, 140, 140, 25, inf);
+		}else if(inf==coU) {
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+		}else {
+		}	
 	}
 	
 	
