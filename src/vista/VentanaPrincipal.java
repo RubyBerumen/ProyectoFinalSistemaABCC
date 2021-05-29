@@ -40,7 +40,7 @@ class Login extends JFrame{
 		imagen1.setBounds(70, 35, 150, 150);
 		add(imagen1);
 		
-		lblUsuario = new JLabel("Usuario");
+		lblUsuario = new JLabel("Nombre");
 		lblUsuario.setBounds(50, 180, 100, 25);
 		lblUsuario.setFont(new Font("Berlin Sans FB", Font.PLAIN, 16));
 		add(lblUsuario);
@@ -294,12 +294,15 @@ class Ventana extends JFrame{
 		
 		//USUARIOS-------------------------------------------------------
 		aU = crearIF(aU, "Usuarios", "Agregar", 500, 300);
+		componentesUsuarios(aU);
 		bU = crearIF(bU, "Usuarios", "Eliminar", 500, 300);
+		componentesUsuarios(bU);
 		cU = crearIF(cU, "Usuarios", "Modificar", 500, 300);
+		componentesUsuarios(cU);
 		coU = crearIF(coU, "Usuarios", "Buscar", 500, 300);
+		componentesUsuarios(coU);
 		
-		
-	
+		//-----------------------------------------------------------------
 		dp.add(aV);
 		dp.add(bV);
 		dp.add(cV);
@@ -316,7 +319,6 @@ class Ventana extends JFrame{
 		dp.setBounds(0, 0, 750, 450);
 		add(dp);
 		
-		
 	}
 	
 	
@@ -325,7 +327,6 @@ class Ventana extends JFrame{
 		jl.setBounds(20, 10, 300, 65);
 		jl.setFont(new Font("Moonbright Demo", Font.PLAIN, 70));
 		jl.setForeground(moradoObscuro);
-		
 		return jl;
 	}
 	
@@ -340,7 +341,6 @@ class Ventana extends JFrame{
 		jlTitulo = titulo(op,jlTitulo);
 		inf.add(jlTitulo);
 		return inf;
-	
 	}
 	
 	
@@ -348,6 +348,35 @@ class Ventana extends JFrame{
 		c.setBounds(x, y, w, h);
 		inf.add(c);
 	}
+
+	
+	public void componentesUsuarios(JInternalFrame inf) {
+		JLabel lblNoUsuario = new JLabel("no_usuario: ");
+		agregarComponente(lblNoUsuario, 20, 100, 80, 25, inf);
+		JTextField txtNoUsuario = new JTextField();
+		agregarComponente(txtNoUsuario, 100, 100, 110, 25, inf);
+		
+		JLabel lblNombre = new JLabel("Nombre: ");
+		agregarComponente(lblNombre, 20, 130, 60, 25, inf);
+		JTextField txtNombre = new JTextField();
+		agregarComponente(txtNombre, 80, 130, 130, 25, inf);
+		
+		JLabel lblContraseña = new JLabel("Contraseña: ");
+		agregarComponente(lblContraseña, 20, 160, 80, 25, inf);
+		JTextField txtContraseña = new JTextField();
+		agregarComponente(txtContraseña, 105, 160, 105, 25, inf);
+		
+		JLabel lblTipo = new JLabel("Tipo de usuario:");
+		agregarComponente(lblTipo, 20, 190, 150, 25, inf);
+		String tipo[] = {"Selecciona tipo de usuario...","Gerente","Empleado"};
+		JComboBox cmbTipo = new JComboBox<String>(tipo);
+		cmbTipo.setBackground(moradoObscuro);
+		cmbTipo.setForeground(grisClaro);
+		agregarComponente(cmbTipo, 20, 215, 195, 30, inf);
+		
+		
+	}
+	
 	
 	public void componentesProductos(JInternalFrame inf){
 		JLabel lblIdProd = new JLabel("id_producto: ");
@@ -420,16 +449,15 @@ class Ventana extends JFrame{
 			agregarComponente(btnGuardar, 230, 150, 140, 25, inf);
 		}else if(inf==coP) {
 			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
-		}
-		
-		
-		
+		}else {
+		}	
 	}
 	
+	
+	
+	
+	
 }
-
-
-
 
 public class VentanaPrincipal {
 
