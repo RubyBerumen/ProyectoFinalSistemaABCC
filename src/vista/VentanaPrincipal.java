@@ -128,15 +128,6 @@ class Ventana extends JFrame{
 		altasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM ventas");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aV.setVisible(true);	
 				bV.setVisible(false);
 				cV.setVisible(false);
@@ -147,15 +138,6 @@ class Ventana extends JFrame{
 		bajasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM ventas");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aV.setVisible(false);	
 				bV.setVisible(true);
 				cV.setVisible(false);
@@ -166,15 +148,6 @@ class Ventana extends JFrame{
 		cambiosV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM ventas");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aV.setVisible(false);	
 				bV.setVisible(false);
 				cV.setVisible(true);
@@ -185,15 +158,6 @@ class Ventana extends JFrame{
 		consultasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM ventas");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aV.setVisible(false);	
 				bV.setVisible(false);
 				cV.setVisible(false);
@@ -216,15 +180,6 @@ class Ventana extends JFrame{
 		altasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM productos");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aP.setVisible(true);	
 				bP.setVisible(false);
 				cP.setVisible(false);
@@ -235,15 +190,6 @@ class Ventana extends JFrame{
 		bajasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM productos");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aP.setVisible(false);	
 				bP.setVisible(true);
 				cP.setVisible(false);
@@ -254,15 +200,6 @@ class Ventana extends JFrame{
 		cambiosP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM productos");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aP.setVisible(false);	
 				bP.setVisible(false);
 				cP.setVisible(true);
@@ -273,15 +210,6 @@ class Ventana extends JFrame{
 		consultasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM productos");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aP.setVisible(false);	
 				bP.setVisible(false);
 				cP.setVisible(false);
@@ -303,15 +231,6 @@ class Ventana extends JFrame{
 		altasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM usuarios");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aU.setVisible(true);	
 				bU.setVisible(false);
 				cU.setVisible(false);
@@ -322,15 +241,6 @@ class Ventana extends JFrame{
 		bajasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM productos");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aU.setVisible(false);	
 				bU.setVisible(true);
 				cU.setVisible(false);
@@ -341,15 +251,6 @@ class Ventana extends JFrame{
 		cambiosU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM productos");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aU.setVisible(false);	
 				bU.setVisible(false);
 				cU.setVisible(true);
@@ -360,15 +261,6 @@ class Ventana extends JFrame{
 		consultasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-											
-				ResultSetTableModel modeloDatos = null;
-				try {
-					modeloDatos = new ResultSetTableModel(controlador, url, "SELECT * FROM productos");
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
-				
 				aU.setVisible(false);	
 				bU.setVisible(false);
 				cU.setVisible(false);
@@ -378,20 +270,17 @@ class Ventana extends JFrame{
 		
 		//------------------------------------------------------------------------------------------------------------
 		
-		
 		menuBar.add(ventas);
 		menuBar.add(productos);
 		menuBar.add(usuarios);
 		
 		setJMenuBar(menuBar);
-	
 		
 		//VENTAS-------------------------------------------------------
 		aV = crearIF(aV, "Ventas", "Agregar", 500, 300);
 		bV = crearIF(bV, "Ventas", "Eliminar", 500, 300);
 		cV = crearIF(cV, "Ventas", "Modificar", 500, 300);
 		coV = crearIF(coV, "Ventas", "Buscar", 500, 300);
-		
 		
 		//PRODUCTOS-------------------------------------------------------
 		aP = crearIF(aP, "Productos", "Agregar", 400, 335);
@@ -402,7 +291,6 @@ class Ventana extends JFrame{
 		componentesProductos(cP);
 		coP = crearIF(coP, "Productos", "Buscar", 400, 335);
 		componentesProductos(coP);
-
 		
 		//USUARIOS-------------------------------------------------------
 		aU = crearIF(aU, "Usuarios", "Agregar", 500, 300);
@@ -487,11 +375,26 @@ class Ventana extends JFrame{
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.setBackground(moradoObscuro);
 		btnBorrar.setForeground(grisClaro);
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtIdProd.setText("");
+				txtNombre.setText("");
+				txtPrecio.setText("");
+				txtDescripcion.setText("");
+			}
+		});
 		agregarComponente(btnBorrar, 230, 200, 140, 25, inf);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBackground(moradoObscuro);
 		btnCancelar.setForeground(grisClaro);
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				inf.setVisible(false);
+			}
+		});
 		agregarComponente(btnCancelar, 230, 250, 140, 25, inf);
 		
 		JButton btnBuscar = new JButton("Buscar");
