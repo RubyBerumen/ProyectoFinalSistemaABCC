@@ -387,63 +387,39 @@ class Ventana extends JFrame{
 	
 		
 		//VENTAS-------------------------------------------------------
-		//------Altas--------
-		aV = new JInternalFrame();
-		aV.getContentPane().setLayout(null);
-		aV.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		aV.setSize(500, 300);
-		aV.setTitle("Ventas");
-		JLabel jlTituloAltasV = new JLabel();
-		jlTituloAltasV = titulo("Agregar",jlTituloAltasV);
-		aV.add(jlTituloAltasV);
-		//------Bajas---------
-		bV = new JInternalFrame();
-		bV.getContentPane().setLayout(null);
-		bV.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		bV.setSize(500, 300);
-		bV.setTitle("Ventas");
-		JLabel jlTituloBajasV = new JLabel();
-		jlTituloBajasV = titulo("Eliminar",jlTituloBajasV);
-		bV.add(jlTituloBajasV);
+		aV = crearIF(aV, "Ventas", "Agregar");
+		bV = crearIF(bV, "Ventas", "Eliminar");
+		cV = crearIF(cV, "Ventas", "Modificar");
+		coV = crearIF(coV, "Ventas", "Buscar");
+		
 		
 		//PRODUCTOS-------------------------------------------------------
-		//------Altas--------
-		aP = new JInternalFrame();
-		aP.getContentPane().setLayout(null);
-		aP.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		aP.setSize(534, 338);
-		aP.setTitle("Productos");
-		JLabel jlTituloAltasP = new JLabel();
-		jlTituloAltasP = titulo("Agregar",jlTituloAltasP);
-		aP.add(jlTituloAltasP);
-		//------Bajas---------
-		bP = new JInternalFrame();
-		bP.getContentPane().setLayout(null);
-		bP.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		bP.setSize(500, 300);
-		bP.setTitle("Productos");
-		JLabel jlTituloBajasP = new JLabel();
-		jlTituloBajasP = titulo("Eliminar",jlTituloBajasP);
-		bP.add(jlTituloBajasP);
+		aP = crearIF(aP, "Productos", "Agregar");
+		bP = crearIF(bP, "Productos", "Eliminar");
+		cP = crearIF(cP, "Productos", "Modificar");
+		coP = crearIF(coP, "Productos", "Buscar");
+
 		
 		//USUARIOS-------------------------------------------------------
-		//------Altas--------
-		aU = new JInternalFrame();
-		aU.getContentPane().setLayout(null);
-		aU.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		aU.setSize(534, 338);
-		aU.setTitle("Usuarios");
-		JLabel jlTituloAltasU = new JLabel();
-		jlTituloAltasU = titulo("Agregar",jlTituloAltasU);
-		aU.add(jlTituloAltasU);
+		aU = crearIF(aU, "Usuarios", "Agregar");
+		bU = crearIF(bU, "Usuarios", "Eliminar");
+		cU = crearIF(cU, "Usuarios", "Modificar");
+		coU = crearIF(coU, "Usuarios", "Buscar");
 		
 		
 	
 		dp.add(aV);
 		dp.add(bV);
+		dp.add(cV);
+		dp.add(coV);
 		dp.add(aP);
 		dp.add(bP);
+		dp.add(cP);
+		dp.add(coP);
 		dp.add(aU);
+		dp.add(bU);
+		dp.add(cU);
+		dp.add(coU);
 		dp.setBackground(moradoObscuro);
 		dp.setBounds(0, 0, 750, 450);
 		add(dp);
@@ -474,6 +450,7 @@ class Ventana extends JFrame{
 		inf.add(jlTitulo);
 		
 		return inf;
+	
 	}
 	
 }
