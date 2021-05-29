@@ -387,24 +387,28 @@ class Ventana extends JFrame{
 	
 		
 		//VENTAS-------------------------------------------------------
-		aV = crearIF(aV, "Ventas", "Agregar");
-		bV = crearIF(bV, "Ventas", "Eliminar");
-		cV = crearIF(cV, "Ventas", "Modificar");
-		coV = crearIF(coV, "Ventas", "Buscar");
+		aV = crearIF(aV, "Ventas", "Agregar", 500, 300);
+		bV = crearIF(bV, "Ventas", "Eliminar", 500, 300);
+		cV = crearIF(cV, "Ventas", "Modificar", 500, 300);
+		coV = crearIF(coV, "Ventas", "Buscar", 500, 300);
 		
 		
 		//PRODUCTOS-------------------------------------------------------
-		aP = crearIF(aP, "Productos", "Agregar");
-		bP = crearIF(bP, "Productos", "Eliminar");
-		cP = crearIF(cP, "Productos", "Modificar");
-		coP = crearIF(coP, "Productos", "Buscar");
+		aP = crearIF(aP, "Productos", "Agregar", 400, 335);
+		componentesProductos(aP);
+		bP = crearIF(bP, "Productos", "Eliminar", 400, 335);
+		componentesProductos(bP);
+		cP = crearIF(cP, "Productos", "Modificar", 400, 335);
+		componentesProductos(cP);
+		coP = crearIF(coP, "Productos", "Buscar", 400, 335);
+		componentesProductos(coP);
 
 		
 		//USUARIOS-------------------------------------------------------
-		aU = crearIF(aU, "Usuarios", "Agregar");
-		bU = crearIF(bU, "Usuarios", "Eliminar");
-		cU = crearIF(cU, "Usuarios", "Modificar");
-		coU = crearIF(coU, "Usuarios", "Buscar");
+		aU = crearIF(aU, "Usuarios", "Agregar", 500, 300);
+		bU = crearIF(bU, "Usuarios", "Eliminar", 500, 300);
+		cU = crearIF(cU, "Usuarios", "Modificar", 500, 300);
+		coU = crearIF(coU, "Usuarios", "Buscar", 500, 300);
 		
 		
 	
@@ -425,9 +429,8 @@ class Ventana extends JFrame{
 		add(dp);
 		
 		
-		
-		
 	}
+	
 	
 	public JLabel titulo(String x, JLabel jl) {
 		jl = new JLabel(x);
@@ -439,18 +442,85 @@ class Ventana extends JFrame{
 	}
 	
 	
-	public JInternalFrame crearIF(JInternalFrame inf, String tab, String op) {
+	public JInternalFrame crearIF(JInternalFrame inf, String tab, String op, int w, int h) {
 		inf = new JInternalFrame();
 		inf.getContentPane().setLayout(null);
 		inf.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		inf.setSize(500, 300);
+		inf.setSize(w, h);
 		inf.setTitle(tab);
 		JLabel jlTitulo = new JLabel();
 		jlTitulo = titulo(op,jlTitulo);
 		inf.add(jlTitulo);
-		
 		return inf;
 	
+	}
+	
+	
+	public void agregarComponente (Component c, int x, int y,int w, int h, JInternalFrame inf) {
+		c.setBounds(x, y, w, h);
+		inf.add(c);
+	}
+	
+	public void componentesProductos(JInternalFrame inf){
+		JLabel lblIdProd = new JLabel("id_producto: ");
+		agregarComponente(lblIdProd, 20, 100, 80, 25, inf);
+		JTextField txtIdProd = new JTextField();
+		agregarComponente(txtIdProd, 100, 100, 110, 25, inf);
+		
+		JLabel lblNombre = new JLabel("Nombre: ");
+		agregarComponente(lblNombre, 20, 130, 60, 25, inf);
+		JTextField txtNombre = new JTextField();
+		agregarComponente(txtNombre, 80, 130, 130, 25, inf);
+		
+		JLabel lblPrecio = new JLabel("Precio:");
+		agregarComponente(lblPrecio, 20, 160, 50, 25, inf);
+		JTextField txtPrecio = new JTextField();
+		agregarComponente(txtPrecio, 70, 160, 140, 25, inf);
+		
+		JLabel lblDescripcion = new JLabel("Descripción:");
+		agregarComponente(lblDescripcion, 20, 190, 80, 25, inf);
+		JTextArea txtDescripcion = new JTextArea();
+		JScrollPane sp = new JScrollPane(txtDescripcion);
+		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		agregarComponente(sp, 20, 215, 195, 70, inf);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBackground(moradoObscuro);
+		btnBorrar.setForeground(grisClaro);
+		agregarComponente(btnBorrar, 230, 200, 140, 25, inf);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBackground(moradoObscuro);
+		btnCancelar.setForeground(grisClaro);
+		agregarComponente(btnCancelar, 230, 250, 140, 25, inf);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(moradoObscuro);
+		btnBuscar.setForeground(grisClaro);
+		
+		if(inf==aP) {
+			JButton btnAgregar = new JButton("Agregar");
+			btnAgregar.setBackground(moradoObscuro);
+			btnAgregar.setForeground(grisClaro);
+			agregarComponente(btnAgregar, 230, 100, 140, 25, inf);
+		}else if(inf==bP) {
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+			JButton btnEliminar = new JButton("Eliminar");
+			btnEliminar.setBackground(moradoObscuro);
+			btnEliminar.setForeground(grisClaro);
+			agregarComponente(btnEliminar, 230, 150, 140, 25, inf);
+		}else if(inf==cP) {
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+			JButton btnGuardar = new JButton("Guardar cambios");
+			btnGuardar.setBackground(moradoObscuro);
+			btnGuardar.setForeground(grisClaro);
+			agregarComponente(btnGuardar, 230, 150, 140, 25, inf);
+		}else if(inf==coP) {
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+		}
+		
+		
+		
 	}
 	
 }
