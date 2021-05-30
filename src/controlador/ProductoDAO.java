@@ -34,7 +34,6 @@ public class ProductoDAO {
 		
 		boolean resultado = false;
 		
-		
 		String sql =  "DELETE FROM producto WHERE idProducto = \""+id+"\"";
 		resultado = conexion.ejecutarInstruccion(sql);
 		
@@ -48,7 +47,6 @@ public class ProductoDAO {
 		
 		
 		String sql = "UPDATE producto SET idProducto='"+p.getIdProducto()+"', Nombre='"+p.getNombre()+"', Precio='"+p.getPrecio()+"', Descripcion='"+p.getDescripcion()+"');";
-		
 		
 		resultado = conexion.ejecutarInstruccion(sql);
 		
