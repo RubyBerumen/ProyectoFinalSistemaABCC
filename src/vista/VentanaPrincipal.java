@@ -94,9 +94,7 @@ class Ventana extends JFrame{
 	JInternalFrame aV,bV,cV,coV;
 	JInternalFrame aP,bP,cP,coP;
 	JInternalFrame aU,bU,cU,coU;
-	JPanel jpAltasV, jpBajasV, jpCambiosV, jpConsultasV;
-	JPanel jpAltasProd, jpBajasProd, jpCambiosProd, jpConsultasProd;
-	JPanel jpAltasU, jpBajasU, jpCambiosU, jpConsultasU;
+	JInternalFrame tV, tP, tU;
 	JDesktopPane dp = new JDesktopPane();
 	
 	String controlador = "com.mysql.cj.jdbc.Driver";
@@ -134,40 +132,33 @@ class Ventana extends JFrame{
 		altasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aV.setVisible(true);	
-				bV.setVisible(false);
-				cV.setVisible(false);
-				coV.setVisible(false);
+				visibleIF(aV, bV, cV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
+				visibleT(tV, tP, tU);
 				}
 			});
 		
 		bajasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aV.setVisible(false);	
-				bV.setVisible(true);
-				cV.setVisible(false);
-				coV.setVisible(false);
+				visibleIF(bV, aV, cV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
+				visibleT(tV, tP, tU);
 				}
 			});
 		
 		cambiosV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aV.setVisible(false);	
-				bV.setVisible(false);
-				cV.setVisible(true);
-				coV.setVisible(false);
+				visibleIF(cV, bV, aV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
+				visibleT(tV, tP, tU);
 				}
 			});
 		
 		consultasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aV.setVisible(false);	
-				bV.setVisible(false);
-				cV.setVisible(false);
-				coV.setVisible(true);
+				visibleIF(coV, bV, cV, aV, aP, bP, cP, coP, aU, bU, cU, coU);
+				visibleT(tV, tP, tU);
+				
 				}
 			});	
 		
@@ -186,40 +177,32 @@ class Ventana extends JFrame{
 		altasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aP.setVisible(true);	
-				bP.setVisible(false);
-				cP.setVisible(false);
-				coP.setVisible(false);
+				visibleIF(aP, bP, cP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
+				visibleT(tP, tU, tV);
 				}
 			});
 		
 		bajasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aP.setVisible(false);	
-				bP.setVisible(true);
-				cP.setVisible(false);
-				coP.setVisible(false);
+				visibleIF(bP, aP, cP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
+				visibleT(tP, tU, tV);
 				}
 			});
 		
 		cambiosP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aP.setVisible(false);	
-				bP.setVisible(false);
-				cP.setVisible(true);
-				coP.setVisible(false);
+				visibleIF(cP, bP, aP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
+				visibleT(tP, tU, tV);
 				}
 			});
 		
 		consultasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aP.setVisible(false);	
-				bP.setVisible(false);
-				cP.setVisible(false);
-				coP.setVisible(true);
+				visibleIF(coP, aP, bP, cP, aU, bU, cU, coU, aV, bV, coV, cV);
+				visibleT(tP, tU, tV);
 				}
 			});	
 		
@@ -237,40 +220,32 @@ class Ventana extends JFrame{
 		altasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aU.setVisible(true);	
-				bU.setVisible(false);
-				cU.setVisible(false);
-				coU.setVisible(false);
+				visibleIF(aU, bU, coU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
+				visibleT(tU, tP, tV);
 				}
 			});
 		
 		bajasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aU.setVisible(false);	
-				bU.setVisible(true);
-				cU.setVisible(false);
-				coU.setVisible(false);
+				visibleIF(bU, aU, coU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
+				visibleT(tU, tP, tV);
 				}
 			});
 		
 		cambiosU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aU.setVisible(false);	
-				bU.setVisible(false);
-				cU.setVisible(true);
-				coU.setVisible(false);
+				visibleIF(cU, bU, coU, aU, aP, bP, cP, coP, aV, bV, cV, coV);
+				visibleT(tU, tP, tV);
 				}
 			});
 		
 		consultasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aU.setVisible(false);	
-				bU.setVisible(false);
-				cU.setVisible(false);
-				coU.setVisible(true);
+				visibleIF(coU, bU, aU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
+				visibleT(tU, tP, tV);
 				}
 			});	
 		
@@ -312,6 +287,11 @@ class Ventana extends JFrame{
 		coU = crearIF(coU, "Usuarios", "Buscar", 400, 300);
 		componentesUsuarios(coU);
 		
+		//TABLAS-----------------------------------------------------------
+		tV = crearIfTabla(tV, "Tabla ventas", 200, 200, 400, 10);
+		tP = crearIfTabla(tP, "Tabla Productos", 200, 200, 420, 10);
+		tU = crearIfTabla(tU, "Tabla usuarios", 200, 200, 420, 10);
+		
 		//-----------------------------------------------------------------
 		dp.add(aV);
 		dp.add(bV);
@@ -325,6 +305,9 @@ class Ventana extends JFrame{
 		dp.add(bU);
 		dp.add(cU);
 		dp.add(coU);
+		dp.add(tV);
+		dp.add(tP);
+		dp.add(tU);
 		dp.setBackground(moradoObscuro);
 		dp.setBounds(0, 0, 750, 450);
 		add(dp);
@@ -353,6 +336,19 @@ class Ventana extends JFrame{
 		JLabel jlTitulo = new JLabel();
 		jlTitulo = titulo(op,jlTitulo);
 		inf.add(jlTitulo);
+		return inf;
+	}
+	
+	
+	public JInternalFrame crearIfTabla(JInternalFrame inf, String tab, int w, int h, int x, int y) {
+		inf = new JInternalFrame();
+		inf.getContentPane().setLayout(null);
+		inf.setLocation(x, y);
+		Border border = new TitledBorder(new EtchedBorder());
+		inf.setBorder(border);
+		inf.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		inf.setSize(w, h);
+		inf.setTitle(tab);
 		return inf;
 	}
 	
@@ -631,6 +627,31 @@ class Ventana extends JFrame{
 			agregarComponente(btnBuscar, 210, 100, 140, 25, inf);
 		}else {
 		}	
+	}
+	
+	
+	public void visibleT(JInternalFrame principal, JInternalFrame x, JInternalFrame y ) {
+		principal.setVisible(true);
+		x.setVisible(false);
+		y.setVisible(false);
+	}
+	
+	
+	public void visibleIF(JInternalFrame principal, JInternalFrame a, JInternalFrame b, JInternalFrame c, JInternalFrame d,
+			JInternalFrame e, JInternalFrame f, JInternalFrame g, JInternalFrame h, JInternalFrame i, JInternalFrame j,
+			JInternalFrame k) {
+		principal.setVisible(true);
+		a.setVisible(false);
+		b.setVisible(false);
+		c.setVisible(false);
+		d.setVisible(false);
+		e.setVisible(false);
+		f.setVisible(false);
+		g.setVisible(false);
+		h.setVisible(false);
+		i.setVisible(false);
+		j.setVisible(false);
+		k.setVisible(false);
 	}
 	
 	
