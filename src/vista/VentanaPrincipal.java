@@ -100,15 +100,22 @@ class Ventana extends JFrame{
 	String controlador = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/proyecto_final";
 	
+	JTable tablaP, tablaV, tablaU;
+	JScrollPane spP = new JScrollPane();
+	JScrollPane spV = new JScrollPane();
+	JScrollPane spU = new JScrollPane();
+	
 	Color moradoObscuro = new Color(133,69,107);
 	Color grisClaro = new Color(212,212,212);
 	Color moradoBajito = new Color(245,220,249);
+	
+	//JTextField txtIdProd;
 
 
 	public Ventana() {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setSize(700,500);
+		setSize(800,450);
 		setLocationRelativeTo(null);
 		setTitle("Sistema ABCC");
 		setVisible(true);
@@ -133,7 +140,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				visibleIF(aV, bV, cV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
-				visibleT(tV, tP, tU);
+				visibleT(tP, tU);
 				}
 			});
 		
@@ -141,7 +148,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				visibleIF(bV, aV, cV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
-				visibleT(tV, tP, tU);
+				visibleT(tP, tU);
 				}
 			});
 		
@@ -149,7 +156,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				visibleIF(cV, bV, aV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
-				visibleT(tV, tP, tU);
+				visibleT(tP, tU);
 				}
 			});
 		
@@ -157,7 +164,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				visibleIF(coV, bV, cV, aV, aP, bP, cP, coP, aU, bU, cU, coU);
-				visibleT(tV, tP, tU);
+				visibleT(tP, tU);
 				
 				}
 			});	
@@ -177,32 +184,36 @@ class Ventana extends JFrame{
 		altasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				actualizarTablaProductos();
 				visibleIF(aP, bP, cP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
-				visibleT(tP, tU, tV);
+				visibleT(tU, tV);
 				}
 			});
 		
 		bajasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				actualizarTablaProductos();
 				visibleIF(bP, aP, cP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
-				visibleT(tP, tU, tV);
+				visibleT(tU, tV);
 				}
 			});
 		
 		cambiosP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				actualizarTablaProductos();
 				visibleIF(cP, bP, aP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
-				visibleT(tP, tU, tV);
+				visibleT(tU, tV);
 				}
 			});
 		
 		consultasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				actualizarTablaProductos();
 				visibleIF(coP, aP, bP, cP, aU, bU, cU, coU, aV, bV, coV, cV);
-				visibleT(tP, tU, tV);
+				visibleT(tU, tV);
 				}
 			});	
 		
@@ -221,7 +232,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				visibleIF(aU, bU, coU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
-				visibleT(tU, tP, tV);
+				visibleT(tP, tV);
 				}
 			});
 		
@@ -229,7 +240,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				visibleIF(bU, aU, coU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
-				visibleT(tU, tP, tV);
+				visibleT(tP, tV);
 				}
 			});
 		
@@ -237,7 +248,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				visibleIF(cU, bU, coU, aU, aP, bP, cP, coP, aV, bV, cV, coV);
-				visibleT(tU, tP, tV);
+				visibleT(tP, tV);
 				}
 			});
 		
@@ -245,7 +256,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				visibleIF(coU, bU, aU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
-				visibleT(tU, tP, tV);
+				visibleT(tP, tV);
 				}
 			});	
 		
@@ -289,7 +300,7 @@ class Ventana extends JFrame{
 		
 		//TABLAS-----------------------------------------------------------
 		tV = crearIfTabla(tV, "Tabla ventas", 200, 200, 400, 10);
-		tP = crearIfTabla(tP, "Tabla Productos", 200, 200, 420, 10);
+		tP = crearIfTabla(tP, "Tabla productos", 350, 200, 420, 10);
 		tU = crearIfTabla(tU, "Tabla usuarios", 200, 200, 420, 10);
 		
 		//-----------------------------------------------------------------
@@ -309,19 +320,11 @@ class Ventana extends JFrame{
 		dp.add(tP);
 		dp.add(tU);
 		dp.setBackground(moradoObscuro);
-		dp.setBounds(0, 0, 750, 450);
+		dp.setBounds(0, 0, 800, 400);
 		add(dp);
 		
 	}
 	
-	
-	public JLabel titulo(String x, JLabel jl) {
-		jl = new JLabel(x);
-		jl.setBounds(20, 10, 300, 65);
-		jl.setFont(new Font("Moonbright Demo", Font.PLAIN, 70));
-		jl.setForeground(moradoObscuro);
-		return jl;
-	}
 	
 	
 	public JInternalFrame crearIF(JInternalFrame inf, String tab, String op, int w, int h) {
@@ -352,10 +355,30 @@ class Ventana extends JFrame{
 		return inf;
 	}
 	
-	
-	public void agregarComponente (Component c, int x, int y,int w, int h, JInternalFrame inf) {
-		c.setBounds(x, y, w, h);
-		inf.add(c);
+	//--------------------------------------------------------------------------------------------
+	public void actualizarTablaProductos() {
+		ResultSetTableModel modeloDatos =null;
+		try {
+			modeloDatos = new ResultSetTableModel(controlador,url,"SELECT * FROM producto");
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		tP.remove(spP);
+		tablaP = new JTable(modeloDatos);
+		tablaP.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		    	//obtenerRegistroTabla(tablaP);
+		    }
+		});
+		spP = new JScrollPane(tablaP);
+		spP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		spP.setBounds(0,0,350,190);
+		tP.add(spP);
+		tP.setVisible(true);
 	}
 	
 	
@@ -630,8 +653,7 @@ class Ventana extends JFrame{
 	}
 	
 	
-	public void visibleT(JInternalFrame principal, JInternalFrame x, JInternalFrame y ) {
-		principal.setVisible(true);
+	public void visibleT(JInternalFrame x, JInternalFrame y ) {
 		x.setVisible(false);
 		y.setVisible(false);
 	}
@@ -653,6 +675,26 @@ class Ventana extends JFrame{
 		j.setVisible(false);
 		k.setVisible(false);
 	}
+	
+	
+	public JLabel titulo(String x, JLabel jl) {
+		jl = new JLabel(x);
+		jl.setBounds(20, 10, 300, 65);
+		jl.setFont(new Font("Moonbright Demo", Font.PLAIN, 70));
+		jl.setForeground(moradoObscuro);
+		return jl;
+	}
+	
+	
+	public void agregarComponente (Component c, int x, int y,int w, int h, JInternalFrame inf) {
+		c.setBounds(x, y, w, h);
+		inf.add(c);
+	}
+	
+	
+	
+	
+	
 	
 	
 }
