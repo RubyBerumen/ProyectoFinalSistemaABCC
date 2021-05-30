@@ -277,10 +277,14 @@ class Ventana extends JFrame{
 		setJMenuBar(menuBar);
 		
 		//VENTAS-------------------------------------------------------
-		aV = crearIF(aV, "Ventas", "Agregar", 500, 300);
+		aV = crearIF(aV, "Ventas", "Agregar", 380, 365);
+		componentesVentas(aV);
 		bV = crearIF(bV, "Ventas", "Eliminar", 500, 300);
+		componentesVentas(bV);
 		cV = crearIF(cV, "Ventas", "Modificar", 500, 300);
+		componentesVentas(cV);
 		coV = crearIF(coV, "Ventas", "Buscar", 500, 300);
+		componentesVentas(coV);
 		
 		//PRODUCTOS-------------------------------------------------------
 		aP = crearIF(aP, "Productos", "Agregar", 400, 335);
@@ -349,6 +353,107 @@ class Ventana extends JFrame{
 		inf.add(c);
 	}
 
+	
+	public void componentesVentas(JInternalFrame inf) {
+		JLabel lblNoVenta = new JLabel("no_venta: ");
+		agregarComponente(lblNoVenta, 20, 100, 60, 25, inf);
+		JTextField txtNoVenta = new JTextField();
+		agregarComponente(txtNoVenta, 85, 100, 100, 25, inf);
+		
+		JLabel lblProductos = new JLabel("Productos: ");
+		agregarComponente(lblProductos, 20, 130, 80, 25, inf);
+		JTextArea txtProductos = new JTextArea();
+		JScrollPane sp = new JScrollPane(txtProductos);
+		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		agregarComponente(sp, 20, 155, 165, 70, inf);
+		
+		JLabel lblFecha = new JLabel("Fecha: ");
+		agregarComponente(lblFecha, 20, 230, 40, 25, inf);
+		JComboBox<String> cmbFecha[]=new JComboBox[3];
+		for (int i=0;i<cmbFecha.length;i+=1) {
+			cmbFecha[i]=new JComboBox<String>();
+			agregarComponente(cmbFecha[i], 20+(i*55), 255, 55, 20, inf);
+		}
+		for (int i = 1; i <= 31; i+=1) {	
+			if (i<10) {
+				cmbFecha[0].addItem("0"+i);
+			}else {
+				cmbFecha[0].addItem(""+i);
+			}
+		}
+		cmbFecha[1].addItem("Ene");
+		cmbFecha[1].addItem("Feb");
+		cmbFecha[1].addItem("Mar");
+		cmbFecha[1].addItem("Abr");
+		cmbFecha[1].addItem("May");
+		cmbFecha[1].addItem("Jun");
+		cmbFecha[1].addItem("Jul");
+		cmbFecha[1].addItem("Ago");
+		cmbFecha[1].addItem("Sep");
+		cmbFecha[1].addItem("Oct");
+		cmbFecha[1].addItem("Nov");
+		cmbFecha[1].addItem("Dic");
+		for (int i = 2021; i <= 2030; i+=1) {cmbFecha[2].addItem(""+i);}
+		
+		JLabel lbltotal = new JLabel("Total: ");
+		agregarComponente(lbltotal, 20, 290, 40, 25, inf);
+		JTextField txtTotal = new JTextField();
+		agregarComponente(txtTotal, 65, 290, 120, 25, inf);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBackground(moradoObscuro);
+		btnBorrar.setForeground(grisClaro);
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtNoVenta.setText("");
+				txtProductos.setText("");
+				cmbFecha[0].setSelectedItem("01");
+				cmbFecha[1].setSelectedItem("Ene");
+				cmbFecha[2].setSelectedItem("2021");
+				txtTotal.setText("");
+			}
+		});
+		agregarComponente(btnBorrar, 210, 226, 140, 25, inf);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBackground(moradoObscuro);
+		btnCancelar.setForeground(grisClaro);
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				inf.setVisible(false);
+			}
+		});
+		agregarComponente(btnCancelar, 210, 290, 140, 25, inf);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(moradoObscuro);
+		btnBuscar.setForeground(grisClaro);
+		
+		if(inf==aV) {
+			JButton btnAgregar = new JButton("Agregar");
+			btnAgregar.setBackground(moradoObscuro);
+			btnAgregar.setForeground(grisClaro);
+			agregarComponente(btnAgregar, 210, 100, 140, 25, inf);
+		}else if(inf==bV) {
+			agregarComponente(btnBuscar, 210, 100, 140, 25, inf);
+			JButton btnEliminar = new JButton("Eliminar");
+			btnEliminar.setBackground(moradoObscuro);
+			btnEliminar.setForeground(grisClaro);
+			agregarComponente(btnEliminar, 210, 163, 140, 25, inf);
+		}else if(inf==cV) {
+			agregarComponente(btnBuscar, 210, 100, 140, 25, inf);
+			JButton btnGuardar = new JButton("Guardar cambios");
+			btnGuardar.setBackground(moradoObscuro);
+			btnGuardar.setForeground(grisClaro);
+			agregarComponente(btnGuardar, 210, 163, 140, 25, inf);
+		}else if(inf==coV) {
+			agregarComponente(btnBuscar, 210, 100, 140, 25, inf);
+		}else {
+		}	
+	}
+	
 	
 	public void componentesUsuarios(JInternalFrame inf) {
 		JLabel lblNoUsuario = new JLabel("no_usuario: ");
