@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -99,6 +100,7 @@ class Ventana extends JFrame{
 	
 	String controlador = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/proyecto_final";
+	String sqlProducto =  "SELECT * FROM producto";
 	
 	JTable tablaP, tablaV, tablaU;
 	JScrollPane spP = new JScrollPane();
@@ -121,11 +123,48 @@ class Ventana extends JFrame{
 		setVisible(true);
 		
 		
+		//VENTAS-------------------------------------------------------
+		aV = crearIF(aV, "Ventas", "Agregar", 380, 365);
+		componentesVentas(aV);
+		bV = crearIF(bV, "Ventas", "Eliminar", 380, 365);
+		componentesVentas(bV);
+		cV = crearIF(cV, "Ventas", "Modificar", 380, 365);
+		componentesVentas(cV);
+		coV = crearIF(coV, "Ventas", "Buscar", 380, 365);
+		componentesVentas(coV);
+				
+		//PRODUCTOS-------------------------------------------------------
+		aP = crearIF(aP, "Productos", "Agregar", 400, 335);
+		componentesProductos(aP);
+		bP = crearIF(bP, "Productos", "Eliminar", 400, 335);
+		componentesProductos(bP);
+		cP = crearIF(cP, "Productos", "Modificar", 400, 335);
+		componentesProductos(cP);
+		coP = crearIF(coP, "Productos", "Buscar", 400, 335);
+		componentesProductos(coP);
+				
+		//USUARIOS-------------------------------------------------------
+		aU = crearIF(aU, "Usuarios", "Agregar", 400, 300);
+		componentesUsuarios(aU);
+		bU = crearIF(bU, "Usuarios", "Eliminar", 400, 300);
+		componentesUsuarios(bU);
+		cU = crearIF(cU, "Usuarios", "Modificar", 400, 300);
+		componentesUsuarios(cU);
+		coU = crearIF(coU, "Usuarios", "Buscar", 400, 300);
+		componentesUsuarios(coU);
+				
+		//TABLAS-----------------------------------------------------------
+		tV = crearIfTabla(tV, "Tabla ventas", 200, 200, 400, 10);
+		tP = crearIfTabla(tP, "Tabla productos", 350, 200, 420, 10);
+		tU = crearIfTabla(tU, "Tabla usuarios", 200, 200, 420, 10);
+				
+		//-----------------------------------------------------------------
+		
 		ventas = new JMenu("Ventas");
 		productos = new JMenu("Productos");
 		usuarios = new JMenu("Usuarios");
 	
-	//----------------------------------------------Ventas--------------------------------------------
+		//----------------------------------------------Ventas--------------------------------------------
 		
 		altasV = new JMenuItem("Altas");
 		ventas.add(altasV);
@@ -184,7 +223,7 @@ class Ventana extends JFrame{
 		altasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				actualizarTablaProductos();
+				actualizarTablaProductos(sqlProducto);
 				visibleIF(aP, bP, cP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
 				visibleT(tU, tV);
 				}
@@ -193,7 +232,7 @@ class Ventana extends JFrame{
 		bajasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				actualizarTablaProductos();
+				actualizarTablaProductos(sqlProducto);
 				visibleIF(bP, aP, cP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
 				visibleT(tU, tV);
 				}
@@ -202,7 +241,7 @@ class Ventana extends JFrame{
 		cambiosP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				actualizarTablaProductos();
+				actualizarTablaProductos(sqlProducto);
 				visibleIF(cP, bP, aP, coP, aU, bU, cU, coU, aV, bV, coV, cV);
 				visibleT(tU, tV);
 				}
@@ -211,7 +250,7 @@ class Ventana extends JFrame{
 		consultasP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				actualizarTablaProductos();
+				actualizarTablaProductos(sqlProducto);
 				visibleIF(coP, aP, bP, cP, aU, bU, cU, coU, aV, bV, coV, cV);
 				visibleT(tU, tV);
 				}
@@ -268,42 +307,7 @@ class Ventana extends JFrame{
 		
 		setJMenuBar(menuBar);
 		
-		//VENTAS-------------------------------------------------------
-		aV = crearIF(aV, "Ventas", "Agregar", 380, 365);
-		componentesVentas(aV);
-		bV = crearIF(bV, "Ventas", "Eliminar", 380, 365);
-		componentesVentas(bV);
-		cV = crearIF(cV, "Ventas", "Modificar", 380, 365);
-		componentesVentas(cV);
-		coV = crearIF(coV, "Ventas", "Buscar", 380, 365);
-		componentesVentas(coV);
 		
-		//PRODUCTOS-------------------------------------------------------
-		aP = crearIF(aP, "Productos", "Agregar", 400, 335);
-		componentesProductos(aP);
-		bP = crearIF(bP, "Productos", "Eliminar", 400, 335);
-		componentesProductos(bP);
-		cP = crearIF(cP, "Productos", "Modificar", 400, 335);
-		componentesProductos(cP);
-		coP = crearIF(coP, "Productos", "Buscar", 400, 335);
-		componentesProductos(coP);
-		
-		//USUARIOS-------------------------------------------------------
-		aU = crearIF(aU, "Usuarios", "Agregar", 400, 300);
-		componentesUsuarios(aU);
-		bU = crearIF(bU, "Usuarios", "Eliminar", 400, 300);
-		componentesUsuarios(bU);
-		cU = crearIF(cU, "Usuarios", "Modificar", 400, 300);
-		componentesUsuarios(cU);
-		coU = crearIF(coU, "Usuarios", "Buscar", 400, 300);
-		componentesUsuarios(coU);
-		
-		//TABLAS-----------------------------------------------------------
-		tV = crearIfTabla(tV, "Tabla ventas", 200, 200, 400, 10);
-		tP = crearIfTabla(tP, "Tabla productos", 350, 200, 420, 10);
-		tU = crearIfTabla(tU, "Tabla usuarios", 200, 200, 420, 10);
-		
-		//-----------------------------------------------------------------
 		dp.add(aV);
 		dp.add(bV);
 		dp.add(cV);
@@ -325,7 +329,7 @@ class Ventana extends JFrame{
 		
 	}
 	
-	
+	//-----------------------------------------METODOS-------------------------------------------------
 	
 	public JInternalFrame crearIF(JInternalFrame inf, String tab, String op, int w, int h) {
 		inf = new JInternalFrame();
@@ -356,10 +360,10 @@ class Ventana extends JFrame{
 	}
 	
 	//--------------------------------------------------------------------------------------------
-	public void actualizarTablaProductos() {
+	public void actualizarTablaProductos(String sql) {
 		ResultSetTableModel modeloDatos =null;
 		try {
-			modeloDatos = new ResultSetTableModel(controlador,url,"SELECT * FROM producto");
+			modeloDatos = new ResultSetTableModel(controlador,url,sql);
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (SQLException e1) {
@@ -379,6 +383,194 @@ class Ventana extends JFrame{
 		spP.setBounds(0,0,350,190);
 		tP.add(spP);
 		tP.setVisible(true);
+	}
+	
+	
+	public void componentesProductos(JInternalFrame inf){
+		JLabel lblIdProd = new JLabel("id_producto: ");
+		agregarComponente(lblIdProd, 20, 100, 80, 25, inf);
+		JTextField txtIdProd = new JTextField();
+		agregarComponente(txtIdProd, 100, 100, 110, 25, inf);
+		
+		JLabel lblNombre = new JLabel("Nombre: ");
+		agregarComponente(lblNombre, 20, 130, 60, 25, inf);
+		JTextField txtNombre = new JTextField();
+		agregarComponente(txtNombre, 80, 130, 130, 25, inf);
+		
+		JLabel lblPrecio = new JLabel("Precio:");
+		agregarComponente(lblPrecio, 20, 160, 50, 25, inf);
+		JTextField txtPrecio = new JTextField();
+		agregarComponente(txtPrecio, 70, 160, 140, 25, inf);
+		
+		JLabel lblDescripcion = new JLabel("Descripción:");
+		agregarComponente(lblDescripcion, 20, 190, 80, 25, inf);
+		JTextArea txtDescripcion = new JTextArea();
+		JScrollPane spDProd = new JScrollPane(txtDescripcion);
+		spDProd.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		agregarComponente(spDProd, 20, 215, 195, 70, inf);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBackground(moradoObscuro);
+		btnBorrar.setForeground(grisClaro);
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				restablecerComponentes(txtIdProd, txtNombre, txtPrecio);
+				txtDescripcion.setText("");
+			}
+		});
+		agregarComponente(btnBorrar, 230, 200, 140, 25, inf);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBackground(moradoObscuro);
+		btnCancelar.setForeground(grisClaro);
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				inf.setVisible(false);
+				tP.setVisible(false);
+			}
+		});
+		agregarComponente(btnCancelar, 230, 250, 140, 25, inf);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(moradoObscuro);
+		btnBuscar.setForeground(grisClaro);
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ProductoDAO pDAO =  new ProductoDAO();
+				String sql = "SELECT * FROM producto";
+				boolean primero = true;
+				if (!txtIdProd.getText().equals("")) {
+					if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+					primero=false;
+					sql+=("idProducto='"+txtIdProd.getText()+"'");
+				}
+				if (!txtNombre.getText().equals("")) {
+					if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+					primero=false;
+					sql+=("Nombre='"+txtNombre.getText()+"'");
+				}
+				if (!txtPrecio.getText().equals("")) {
+					if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+					primero=false;
+					sql+=("Precio='"+txtPrecio.getText()+"'");
+				}
+				if (!txtDescripcion.getText().equals("")) {
+					if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+					primero=false;
+					sql+=("Descripcion='"+txtDescripcion.getText()+"'");
+				}
+				
+				ResultSetTableModel modeloDatos =null;
+				try {
+					modeloDatos = new ResultSetTableModel(controlador,url,sql);
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				tP.remove(spP);
+				tablaP = new JTable(modeloDatos);
+				tablaP.addMouseListener(new java.awt.event.MouseAdapter() {
+				    @Override
+				    public void mouseClicked(java.awt.event.MouseEvent evt) {
+				    	txtIdProd.setText((String) tablaP.getValueAt(tablaP.getSelectedRow(),0));
+				    	txtNombre.setText((String) tablaP.getValueAt(tablaP.getSelectedRow(),1));
+						txtPrecio.setText((String) tablaP.getValueAt(tablaP.getSelectedRow(),2));
+						txtDescripcion.setText((String) tablaP.getValueAt(tablaP.getSelectedRow(),3));
+				    }
+				});
+				spP = new JScrollPane(tablaP);
+				spP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				spP.setBounds(0,0,350,190);
+				tP.add(spP);
+				tP.setVisible(true);
+				ArrayList<Producto> productos = pDAO.buscarProducto(sql);
+			}
+			
+		});
+		
+		if(inf==aP) {
+			JButton btnAgregar = new JButton("Agregar");
+			btnAgregar.setBackground(moradoObscuro);
+			btnAgregar.setForeground(grisClaro);
+			btnAgregar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					
+					Producto p = new Producto(txtIdProd.getText(), txtNombre.getText(), Double.parseDouble(txtPrecio.getText()), txtDescripcion.getText());
+					
+					ProductoDAO pDAO = new ProductoDAO();
+					
+					System.out.println(pDAO.insertarRragistro(p)?"Se agregó correctamente":"Error");
+					
+					if(pDAO.insertarRragistro(p)) {
+						JOptionPane.showMessageDialog(rootPane,"Se agregó correctamente a la base de datos");
+					}else {
+						JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar agregar a la base de datos");
+					}
+				}
+			});
+			agregarComponente(btnAgregar, 230, 100, 140, 25, inf);
+		}else if(inf==bP) {
+			txtNombre.setEditable(false);
+			txtPrecio.setEditable(false);
+			txtDescripcion.setEditable(false);
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+			JButton btnEliminar = new JButton("Eliminar");
+			btnEliminar.setBackground(moradoObscuro);
+			btnEliminar.setForeground(grisClaro);
+			btnEliminar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String id = txtIdProd.getText();
+					ProductoDAO pDAO = new ProductoDAO();
+					
+					System.out.println(pDAO.eliminarRegistro(id)?"Se agregó correctamente":"Error");
+					
+					if(pDAO.eliminarRegistro(id)) {
+						JOptionPane.showMessageDialog(rootPane,"Se eliminó correctamente de la base de datos");
+					}else {
+						JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar eliminar a la base de datos");
+					}
+				}
+			});
+			agregarComponente(btnEliminar, 230, 150, 140, 25, inf);
+		}else if(inf==cP) {
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+			JButton btnGuardar = new JButton("Guardar cambios");
+			btnGuardar.setBackground(moradoObscuro);
+			btnGuardar.setForeground(grisClaro);
+			btnGuardar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					ProductoDAO pDAO = new ProductoDAO();
+					if (txtIdProd.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "No se esta especificando el id del producto");
+					}else {
+						Producto p = new Producto(txtIdProd.getText(), txtNombre.getText(), Double.parseDouble(txtPrecio.getText()), txtDescripcion.getText());
+						/*boolean f[]=new boolean[6];
+						f[0]=!txtNombre.getText().equals("");
+						f[1]=!txtPrecio.getText().equals("");
+						f[2]=!txtDescripcion.getText().equals("");*/
+						
+						if (pDAO.modificarRegistro(p)) {
+							JOptionPane.showMessageDialog(null, "Datos de producto modificados exitosamente");
+						}else {
+							JOptionPane.showMessageDialog(null, "No se pudieron modificar los datos del producto");
+						}
+					}
+					
+				}
+				
+			});
+			agregarComponente(btnGuardar, 230, 150, 140, 25, inf);
+		}else if(inf==coP) {
+			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
+		}else {
+		}	
 	}
 	
 	
@@ -459,96 +651,7 @@ class Ventana extends JFrame{
 	}
 	
 	
-	public void componentesProductos(JInternalFrame inf){
-		JLabel lblIdProd = new JLabel("id_producto: ");
-		agregarComponente(lblIdProd, 20, 100, 80, 25, inf);
-		JTextField txtIdProd = new JTextField();
-		agregarComponente(txtIdProd, 100, 100, 110, 25, inf);
-		
-		JLabel lblNombre = new JLabel("Nombre: ");
-		agregarComponente(lblNombre, 20, 130, 60, 25, inf);
-		JTextField txtNombre = new JTextField();
-		agregarComponente(txtNombre, 80, 130, 130, 25, inf);
-		
-		JLabel lblPrecio = new JLabel("Precio:");
-		agregarComponente(lblPrecio, 20, 160, 50, 25, inf);
-		JTextField txtPrecio = new JTextField();
-		agregarComponente(txtPrecio, 70, 160, 140, 25, inf);
-		
-		JLabel lblDescripcion = new JLabel("Descripción:");
-		agregarComponente(lblDescripcion, 20, 190, 80, 25, inf);
-		JTextArea txtDescripcion = new JTextArea();
-		JScrollPane sp = new JScrollPane(txtDescripcion);
-		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		agregarComponente(sp, 20, 215, 195, 70, inf);
-		
-		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.setBackground(moradoObscuro);
-		btnBorrar.setForeground(grisClaro);
-		btnBorrar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				txtIdProd.setText("");
-				txtNombre.setText("");
-				txtPrecio.setText("");
-				txtDescripcion.setText("");
-			}
-		});
-		agregarComponente(btnBorrar, 230, 200, 140, 25, inf);
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBackground(moradoObscuro);
-		btnCancelar.setForeground(grisClaro);
-		btnCancelar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				inf.setVisible(false);
-			}
-		});
-		agregarComponente(btnCancelar, 230, 250, 140, 25, inf);
-		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBackground(moradoObscuro);
-		btnBuscar.setForeground(grisClaro);
-		
-		if(inf==aP) {
-			JButton btnAgregar = new JButton("Agregar");
-			btnAgregar.setBackground(moradoObscuro);
-			btnAgregar.setForeground(grisClaro);
-			btnAgregar.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					Producto p = new Producto(txtIdProd.getText(), txtNombre.getText(), Double.parseDouble(txtPrecio.getText()), txtDescripcion.getText());
-					
-					ProductoDAO pDAO = new ProductoDAO();
-					
-					System.out.println(pDAO.insertarRragistro(p)?"Se agregó correctamente":"Error");
-					
-					if(pDAO.insertarRragistro(p)) {
-						JOptionPane.showMessageDialog(rootPane,"Se agregó correctamente a la base de datos");
-					}else {
-						JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar agregar a la base de datos");
-					}
-				}
-			});
-			agregarComponente(btnAgregar, 230, 100, 140, 25, inf);
-		}else if(inf==bP) {
-			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
-			JButton btnEliminar = new JButton("Eliminar");
-			btnEliminar.setBackground(moradoObscuro);
-			btnEliminar.setForeground(grisClaro);
-			agregarComponente(btnEliminar, 230, 150, 140, 25, inf);
-		}else if(inf==cP) {
-			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
-			JButton btnGuardar = new JButton("Guardar cambios");
-			btnGuardar.setBackground(moradoObscuro);
-			btnGuardar.setForeground(grisClaro);
-			agregarComponente(btnGuardar, 230, 150, 140, 25, inf);
-		}else if(inf==coP) {
-			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
-		}else {
-		}	
-	}
+	
 	
 	
 	public void componentesVentas(JInternalFrame inf) {
@@ -653,6 +756,9 @@ class Ventana extends JFrame{
 	}
 	
 	
+	
+	
+	
 	public void visibleT(JInternalFrame x, JInternalFrame y ) {
 		x.setVisible(false);
 		y.setVisible(false);
@@ -692,7 +798,15 @@ class Ventana extends JFrame{
 	}
 	
 	
-	
+	public void restablecerComponentes(Component...componentesGraficos) {
+		for (Component c: componentesGraficos) {
+			if (c instanceof JComboBox) {
+				((JComboBox<?>)c).setSelectedIndex(-1);
+			}else if (c instanceof JTextField) {
+				((JTextField)c).setText("");
+			}
+		}
+	}
 	
 	
 	

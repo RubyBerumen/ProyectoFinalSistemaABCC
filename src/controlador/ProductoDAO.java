@@ -41,12 +41,39 @@ public class ProductoDAO {
 	}
 	
 	
-	public boolean modificarRegistro(Producto p) {
-		
+	public boolean modificarRegistro(Producto p/*, boolean f[]*/) {
+
 		boolean resultado = false;
+		/*int primero=0;
 		
+		String sql = "UPDATE alumnos SET ";
 		
-		String sql = "UPDATE producto SET idProducto='"+p.getIdProducto()+"', Nombre='"+p.getNombre()+"', Precio='"+p.getPrecio()+"', Descripcion='"+p.getDescripcion()+"');";
+		if (f[0]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("Nombre='"+p.getNombre()+"'");
+		}
+		if (f[1]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("Precio='"+p.getPrecio()+"'");
+		}
+		if (f[2]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("Descripcion='"+p.getDescripcion()+"'");
+		}
+		
+		sql+=("WHERE idproducto = '"+p.getIdProducto()+"'");*/
+		
+		String sql = "UPDATE producto SET Nombre='"+p.getNombre()+"', Precio='"+p.getPrecio()+"', Descripcion='"+p.getDescripcion()+"'"
+				+" WHERE idProducto = '" + p.getIdProducto()+"';";
 		
 		resultado = conexion.ejecutarInstruccion(sql);
 		
@@ -57,9 +84,9 @@ public class ProductoDAO {
 	public ArrayList<Producto> buscarProducto (String filtro){
 		ArrayList<Producto> listaProductos = new ArrayList<>();
 		
-		String sql = "SELECT * FROM producto";
+		//String sql = "SELECT * FROM producto";
 		
-		ResultSet rs = conexion.ejecutarConsulta(sql);
+		ResultSet rs = conexion.ejecutarConsulta(filtro);
 		
 		try {
 			if(rs.next()) {
