@@ -143,7 +143,7 @@ class Ventana extends JFrame{
 		cP = crearIF(cP, "Productos", "Modificar", 400, 335);
 		componentesProductos(cP);
 		coP = crearIF(coP, "Productos", "Buscar", 400, 335);
-		componentesProductos(coP);
+		componentesProductosConsultas(coP);
 		
 		//USUARIOS-------------------------------------------------------
 		aU = crearIF(aU, "Usuarios", "Agregar", 400, 300);
@@ -162,13 +162,11 @@ class Ventana extends JFrame{
 		
 		//-----------------------------------------------------------------
 		
-		
 		ventas = new JMenu("Ventas");
 		productos = new JMenu("Productos");
 		usuarios = new JMenu("Usuarios");
-	
-	//----------------------------------------------Ventas--------------------------------------------
-		
+
+//----------------------------------------------Ventas--------------------------------------------
 		altasV = new JMenuItem("Altas");
 		ventas.add(altasV);
 		bajasV = new JMenuItem("Bajas");
@@ -212,8 +210,7 @@ class Ventana extends JFrame{
 			});	
 		
 		
-		//------------------------------------------Productos--------------------------------------------------------
-		
+//------------------------------------------Productos--------------------------------------------------------
 		altasP = new JMenuItem("Altas");
 		productos.add(altasP);
 		bajasP = new JMenuItem("Bajas");
@@ -258,9 +255,9 @@ class Ventana extends JFrame{
 				visibleT(tU, tV);
 				}
 			});	
+
 		
-		//------------------------------------------Usuarios--------------------------------------------------------
-		
+//------------------------------------------Usuarios--------------------------------------------------------
 		altasU = new JMenuItem("Altas");
 		usuarios.add(altasU);
 		bajasU = new JMenuItem("Bajas");
@@ -302,8 +299,8 @@ class Ventana extends JFrame{
 				}
 			});	
 		
-		//------------------------------------------------------------------------------------------------------------
 		
+//------------------------------------------------------------------------------------------------------------	
 		menuBar.add(ventas);
 		menuBar.add(productos);
 		menuBar.add(usuarios);
@@ -334,7 +331,7 @@ class Ventana extends JFrame{
 	
 	
 	
-	//--------------------------------------------------------------------------------------------
+//-------------------------------------MÉTODOS PRODUCTOS--------------------------------------------
 	public void mostrarTablaProductos(String sql) {
 		ResultSetTableModel modeloDatos =null;
 		try {
@@ -411,6 +408,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				restablecerComponentes(txtIdProd, txtNombre, txtPrecio, txtDescripcion);
+				mostrarTablaProductos(sqlProducto);
 			}
 		});
 		agregarComponente(btnBorrar, 230, 200, 140, 25, inf);
@@ -510,13 +508,180 @@ class Ventana extends JFrame{
 				
 			});
 			agregarComponente(btnGuardar, 230, 150, 140, 25, inf);
-		}else if(inf==coP) {
-			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
 		}else {
 		}	
 	}
 	
 	
+	public void componentesProductosConsultas(JInternalFrame inf) {
+		ButtonGroup bg = new ButtonGroup();
+		
+		JRadioButton rbTodos = new JRadioButton("Todos");
+		bg.add(rbTodos);
+		agregarComponente(rbTodos, 20, 75, 80, 25, inf);
+		
+		JRadioButton rbIdProd = new JRadioButton("id_producto: ");
+		bg.add(rbIdProd);
+		agregarComponente(rbIdProd, 20, 105, 100, 25, inf);
+		JTextField txtIdProd = new JTextField();
+		txtIdProd.setEditable(false);
+		agregarComponente(txtIdProd, 120, 105, 110, 25, inf);
+		
+		JRadioButton rbNombre = new JRadioButton("Nombre: ");
+		bg.add(rbNombre);
+		agregarComponente(rbNombre, 20, 135, 80, 25, inf);
+		JTextField txtNombre = new JTextField();
+		txtNombre.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
+					txtNombre.setEditable(false);
+				}else{
+					txtNombre.setEditable(true);
+				}
+			}
+		});
+		txtNombre.setEditable(false);
+		agregarComponente(txtNombre, 100, 135, 130, 25, inf);
+		
+		JRadioButton rbPrecio = new JRadioButton("Precio:");
+		bg.add(rbPrecio);
+		agregarComponente(rbPrecio, 20, 165, 70, 25, inf);
+		JTextField txtPrecio = new JTextField();
+		txtPrecio.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')|| ke.getKeyChar()=='.'||(code==KeyEvent.VK_BACK_SPACE)) {
+					txtPrecio.setEditable(true);
+				}else{
+					txtPrecio.setEditable(false);
+				}
+			}
+		});
+		txtPrecio.setEditable(false);
+		agregarComponente(txtPrecio, 90, 165, 140, 25, inf);
+		
+		JRadioButton rbDescripcion = new JRadioButton("Descripción:");
+		bg.add(rbDescripcion);
+		agregarComponente(rbDescripcion, 20, 195, 100, 25, inf);
+		JTextArea txtDescripcion = new JTextArea();
+		txtDescripcion.setEditable(false);
+		JScrollPane sp = new JScrollPane(txtDescripcion);
+		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		agregarComponente(sp, 20, 220, 210, 70, inf);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBackground(moradoObscuro);
+		btnBorrar.setForeground(grisClaro);
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				restablecerComponentes(txtIdProd, txtNombre, txtPrecio, txtDescripcion);
+				mostrarTablaProductos(sqlProducto);
+			}
+		});
+		agregarComponente(btnBorrar, 250, 190, 120, 25, inf);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBackground(moradoObscuro);
+		btnCancelar.setForeground(grisClaro);
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				inf.setVisible(false);
+				tP.setVisible(false);
+			}
+		});
+		agregarComponente(btnCancelar, 250, 260, 120, 25, inf);
+		
+		rbIdProd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtIdProd.setEditable(true);
+				editableF(txtNombre,txtPrecio,txtDescripcion);
+			}
+		});
+		rbNombre.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtNombre.setEditable(true);
+				editableF(txtIdProd,txtPrecio,txtDescripcion);
+			}
+		});
+		rbPrecio.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtPrecio.setEditable(true);
+				editableF(txtIdProd,txtNombre,txtDescripcion);
+			}
+		});
+		rbDescripcion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtDescripcion.setEditable(true);
+				editableF(txtIdProd,txtNombre,txtPrecio);
+			}
+		});
+		rbTodos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				editableT(txtIdProd,txtNombre,txtPrecio,txtDescripcion);
+			}
+		});
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(moradoObscuro);
+		btnBuscar.setForeground(grisClaro);
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String sql;
+				if(rbTodos.isSelected()) {
+					sql = "SELECT * FROM producto WHERE idProducto='"+txtIdProd.getText()+"' AND Nombre='"+txtNombre.getText()+
+							"' AND precio='"+txtPrecio.getText()+"' AND Descripcion = '"+txtDescripcion.getText()+"';";
+					if(txtIdProd.getText().equals("")||txtNombre.getText().equals("")||txtPrecio.getText().equals("")||txtDescripcion.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes llenar todos los campos");
+					}else {
+						mostrarTablaProductos(sql);
+					}
+				}else if(rbIdProd.isSelected()) {
+					sql =  "SELECT * FROM producto WHERE idProducto = \""+txtIdProd.getText()+"\"";
+					if(txtIdProd.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar el id del producto");
+					}else {
+						mostrarTablaProductos(sql);
+					}
+				}else if(rbNombre.isSelected()) {
+					sql =  "SELECT * FROM producto WHERE Nombre = \""+txtNombre.getText()+"\"";
+					if(txtNombre.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar un nombre");
+					}else {
+						mostrarTablaProductos(sql);
+					}
+				}else if(rbPrecio.isSelected()) {
+					sql =  "SELECT * FROM producto WHERE Precio = \""+txtPrecio.getText()+"\"";
+					if(txtPrecio.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar un precio");
+					}else {
+						mostrarTablaProductos(sql);
+					}
+				}else if(rbDescripcion.isSelected()) {
+					sql =  "SELECT * FROM producto WHERE Descripcion = \""+txtDescripcion.getText()+"\"";
+					if(txtDescripcion.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar una descripcion");
+					}else {
+						mostrarTablaProductos(sql);
+					}
+				}else {
+				}
+			}//action preformed
+		});
+		agregarComponente(btnBuscar, 250, 85, 120, 30, inf);
+		
+	}
+	
+	
+//-----------------------------------------MÉTODOS USUARIOS-------------------------------------------------
 	public void componentesUsuarios(JInternalFrame inf) {
 		JLabel lblNoUsuario = new JLabel("no_usuario: ");
 		agregarComponente(lblNoUsuario, 20, 100, 80, 25, inf);
@@ -600,7 +765,8 @@ class Ventana extends JFrame{
 		}	
 	}
 	
-	
+
+//--------------------------------------METODOS VENTAS-------------------------------------------
 	public void componentesVentas(JInternalFrame inf) {
 		JLabel lblNoVenta = new JLabel("no_venta: ");
 		agregarComponente(lblNoVenta, 20, 100, 60, 25, inf);
@@ -715,8 +881,7 @@ class Ventana extends JFrame{
 	}
 	
 	
-	//---------------------------------------------------------------------------------------------------------------
-	
+//----------------------------------------------METODOS GENERALES------------------------------------------------	
 	public JInternalFrame crearIF(JInternalFrame inf, String tab, String op, int w, int h) {
 		inf = new JInternalFrame();
 		inf.getContentPane().setLayout(null);
@@ -798,9 +963,32 @@ class Ventana extends JFrame{
 	}
 	
 	
+	public void editableF(Component...components) {
+		for (Component c: components) {
+			if (c instanceof JTextField) {
+				((JTextField)c).setEditable(false);
+			}else if (c instanceof JTextArea) {
+				((JTextArea)c).setEditable(false);
+			}
+		}
+	}
 	
 	
-}
+	public void editableT(Component...components) {
+		for (Component c: components) {
+			if (c instanceof JTextField) {
+				((JTextField)c).setEditable(true);
+			}else if (c instanceof JTextArea) {
+				((JTextArea)c).setEditable(true);
+			}
+		}
+	}
+	
+	
+	
+	
+	
+}//Ventana
 
 public class VentanaPrincipal {
 
