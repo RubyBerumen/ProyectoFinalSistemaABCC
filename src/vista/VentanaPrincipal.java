@@ -153,7 +153,7 @@ class Ventana extends JFrame{
 		cU = crearIF(cU, "Usuarios", "Modificar", 400, 300);
 		componentesUsuarios(cU);
 		coU = crearIF(coU, "Usuarios", "Buscar", 400, 300);
-		componentesUsuarios(coU);
+		componentesUsuariosConsultas(coU);
 		
 		//TABLAS-----------------------------------------------------------
 		tV = crearIfTabla(tV, "Tabla ventas", 350, 215, 400, 10);
@@ -335,7 +335,7 @@ class Ventana extends JFrame{
 	
 	
 	
-//-------------------------------------MÉTODOS PRODUCTOS--------------------------------------------
+//===============================================MÉTODOS PRODUCTOS==================================================
 	public void mostrarTablaProductos(String sql) {
 		ResultSetTableModel modeloDatos =null;
 		try {
@@ -685,7 +685,7 @@ class Ventana extends JFrame{
 	}
 	
 	
-//-----------------------------------------MÉTODOS USUARIOS-------------------------------------------------
+//===========================================MÉTODOS USUARIOS===========================================
 	public void mostrarTablaUsuarios(String sql) {
 		ResultSetTableModel modeloDatos =null;
 		try {
@@ -887,8 +887,190 @@ class Ventana extends JFrame{
 		}	
 	}
 	
+	
+	public void componentesUsuariosConsultas(JInternalFrame inf) {
+		ButtonGroup bg = new ButtonGroup();
+		
+		JRadioButton rbTodos = new JRadioButton("Todos");
+		bg.add(rbTodos);
+		agregarComponente(rbTodos, 20, 75, 80, 25, inf);
+		
+		JRadioButton rbNoUsuario = new JRadioButton("no_usuario: ");
+		bg.add(rbNoUsuario);
+		agregarComponente(rbNoUsuario, 20, 105, 100, 25, inf);
+		JTextField txtNoUsuario = new JTextField();
+		txtNoUsuario.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')||(code==KeyEvent.VK_BACK_SPACE)) {
+					txtNoUsuario.setEditable(true);
+				}else{
+					txtNoUsuario.setEditable(false);
+				}
+			}
+		});
+		txtNoUsuario.setEditable(false);
+		agregarComponente(txtNoUsuario, 120, 105, 110, 25, inf);
+		
+		JRadioButton rbNombre = new JRadioButton("Nombre: ");
+		bg.add(rbNombre);
+		agregarComponente(rbNombre, 20, 135, 80, 25, inf);
+		JTextField txtNombre = new JTextField();
+		txtNombre.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
+					txtNombre.setEditable(false);
+				}else{
+					txtNombre.setEditable(true);
+				}
+			}
+		});
+		txtNombre.setEditable(false);
+		agregarComponente(txtNombre, 100, 135, 130, 25, inf);
+		
+		JRadioButton rbContraseña = new JRadioButton("Contraseña:");
+		bg.add(rbContraseña);
+		agregarComponente(rbContraseña, 20, 165, 100, 25, inf);
+		JPasswordField txtContraseña = new JPasswordField();
+		txtContraseña.setEditable(false);
+		agregarComponente(txtContraseña, 120, 165, 110, 25, inf);
+		
+		JRadioButton rbTipo = new JRadioButton("Tipo: ");
+		bg.add(rbTipo);
+		agregarComponente(rbTipo, 20, 195, 100, 25, inf);
+		String tipo[] = {"Selecciona tipo de usuario...","Gerente","Empleado"};
+		JComboBox cmbTipo = new JComboBox<String>(tipo);
+		cmbTipo.setBackground(moradoObscuro);
+		cmbTipo.setForeground(grisClaro);
+		agregarComponente(cmbTipo, 20, 220, 195, 30, inf);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBackground(moradoObscuro);
+		btnBorrar.setForeground(grisClaro);
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				restablecerComponentes(txtNoUsuario, txtNombre, txtContraseña, cmbTipo);
+				mostrarTablaUsuarios(sqlUsuarios);
+			}
+		});
+		agregarComponente(btnBorrar, 250, 165, 120, 25, inf);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBackground(moradoObscuro);
+		btnCancelar.setForeground(grisClaro);
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				inf.setVisible(false);
+				tU.setVisible(false);
+			}
+		});
+		agregarComponente(btnCancelar, 250, 225, 120, 25, inf);
+		
+		rbNoUsuario.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtNoUsuario.setEditable(true);
+				editableF(txtNombre,txtContraseña, cmbTipo);
+			}
+		});
+		rbNombre.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtNombre.setEditable(true);
+				editableF(txtNoUsuario,txtContraseña, cmbTipo);
+			}
+		});
+		rbContraseña.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtContraseña.setEditable(true);
+				editableF(txtNoUsuario, txtNombre, cmbTipo);
+			}
+		});
+		rbTipo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				cmbTipo.setEnabled(true);
+				editableF(txtNoUsuario, txtNombre, txtContraseña);
+			}
+		});
+		rbTodos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				editableT(txtNoUsuario, txtNombre, txtContraseña, cmbTipo);
+			}
+		});
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(moradoObscuro);
+		btnBuscar.setForeground(grisClaro);
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String sql;
+				if(rbTodos.isSelected()&&cmbTipo.getSelectedItem().equals("Selecciona tipo de usuario...")){
+					JOptionPane.showMessageDialog(rootPane,"Debes seleccionar el tipo de usuario");
+				}else if(rbTodos.isSelected()&&cmbTipo.getSelectedItem().equals("Gerente")){
+					sql = "SELECT * FROM usuarios WHERE noUsuario='"+txtNoUsuario.getText()+"' AND Nombre='"+txtNombre.getText()+
+							"' AND Contraseña='"+txtContraseña.getText()+"' AND Tipo = 'Gerente';";
+					if(txtNoUsuario.getText().equals("")||txtNombre.getText().equals("")||txtContraseña.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes llenar todos los campos");
+					}else {
+						mostrarTablaUsuarios(sql);
+					}
+				}else if(rbTodos.isSelected()&&cmbTipo.getSelectedItem().equals("Empleado")){
+					sql = "SELECT * FROM usuarios WHERE noUsuario='"+txtNoUsuario.getText()+"' AND Nombre='"+txtNombre.getText()+
+							"' AND Contraseña='"+txtContraseña.getText()+"' AND Tipo = 'Empleado';";
+					if(txtNoUsuario.getText().equals("")||txtNombre.getText().equals("")||txtContraseña.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes llenar todos los campos");
+					}else {
+						mostrarTablaUsuarios(sql);
+					}
+				}else if(rbNoUsuario.isSelected()) {
+					sql =  "SELECT * FROM usuarios WHERE noUsuario = '"+txtNoUsuario.getText()+"';";
+					if(txtNoUsuario.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar el numero del usuario");
+					}else {
+						mostrarTablaUsuarios(sql);
+					}
+				}else if(rbNombre.isSelected()) {
+					sql =  "SELECT * FROM usuarios WHERE Nombre = \""+txtNombre.getText()+"\"";
+					if(txtNombre.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar un nombre");
+					}else {
+						mostrarTablaUsuarios(sql);
+					}
+				}else if(rbContraseña.isSelected()) {
+					sql =  "SELECT * FROM usuarios WHERE Contraseña = \""+txtContraseña.getText()+"\"";
+					if(txtContraseña.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar una contraseña");
+					}else {
+						mostrarTablaUsuarios(sql);
+					}
+				}else if(rbTipo.isSelected()) {
+					if(cmbTipo.getSelectedItem().equals("Selecciona tipo de usuario...")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes selecionar un tipo de usuario");
+					}else if(cmbTipo.getSelectedItem().equals("Gerente")){
+						sql =  "SELECT * FROM usuarios WHERE Tipo = 'Gerente';";
+						mostrarTablaUsuarios(sql);
+					}else if(cmbTipo.getSelectedItem().equals("Empleado")){
+						sql =  "SELECT * FROM usuarios WHERE Tipo = 'Empleado';";
+						mostrarTablaUsuarios(sql);
+					}
+				}
+			}//action preformed
+		});
+		agregarComponente(btnBuscar, 250, 85, 120, 30, inf);
+		
+		
+		
+	}
+	
 
-//--------------------------------------METODOS VENTAS-------------------------------------------
+//=============================================METODOS VENTAS======================================
 	public void componentesVentas(JInternalFrame inf) {
 		JLabel lblNoVenta = new JLabel("no_venta: ");
 		agregarComponente(lblNoVenta, 20, 100, 60, 25, inf);
@@ -1091,6 +1273,10 @@ class Ventana extends JFrame{
 				((JTextField)c).setEditable(false);
 			}else if (c instanceof JTextArea) {
 				((JTextArea)c).setEditable(false);
+			}else if (c instanceof JPasswordField) {
+				((JPasswordField)c).setEditable(false);
+			}else if (c instanceof JComboBox) {
+				((JComboBox<?>)c).setEnabled(false);
 			}
 		}
 	}
@@ -1102,6 +1288,10 @@ class Ventana extends JFrame{
 				((JTextField)c).setEditable(true);
 			}else if (c instanceof JTextArea) {
 				((JTextArea)c).setEditable(true);
+			}else if (c instanceof JPasswordField) {
+				((JPasswordField)c).setEditable(true);
+			}else if (c instanceof JComboBox) {
+				((JComboBox<?>)c).setEnabled(true);
 			}
 		}
 	}
