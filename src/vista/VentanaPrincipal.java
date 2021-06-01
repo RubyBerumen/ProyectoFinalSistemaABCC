@@ -103,6 +103,8 @@ class Ventana extends JFrame{
 	String controlador = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/proyecto_final";
 	String sqlProducto =  "SELECT * FROM producto";
+	String sqlUsuarios =  "SELECT * FROM usuarios";
+	String sqlVentas =  "SELECT * FROM ventas";
 	
 	JTable tablaP, tablaV, tablaU;
 	JScrollPane spP = new JScrollPane();
@@ -112,8 +114,6 @@ class Ventana extends JFrame{
 	Color moradoObscuro = new Color(133,69,107);
 	Color grisClaro = new Color(212,212,212);
 	Color moradoBajito = new Color(245,220,249);
-	
-	//JTextField txtIdProd;
 
 
 	public Ventana() {
@@ -156,9 +156,9 @@ class Ventana extends JFrame{
 		componentesUsuarios(coU);
 		
 		//TABLAS-----------------------------------------------------------
-		tV = crearIfTabla(tV, "Tabla ventas", 200, 200, 400, 10);
+		tV = crearIfTabla(tV, "Tabla ventas", 350, 215, 400, 10);
 		tP = crearIfTabla(tP, "Tabla productos", 350, 215, 420, 10);
-		tU = crearIfTabla(tU, "Tabla usuarios", 200, 200, 420, 10);
+		tU = crearIfTabla(tU, "Tabla usuarios", 350, 215, 420, 10);
 		
 		//-----------------------------------------------------------------
 		
@@ -270,6 +270,7 @@ class Ventana extends JFrame{
 		altasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaUsuarios(sqlUsuarios);
 				visibleIF(aU, bU, coU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
 				visibleT(tP, tV);
 				}
@@ -278,6 +279,7 @@ class Ventana extends JFrame{
 		bajasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaUsuarios(sqlUsuarios);
 				visibleIF(bU, aU, coU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
 				visibleT(tP, tV);
 				}
@@ -286,6 +288,7 @@ class Ventana extends JFrame{
 		cambiosU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaUsuarios(sqlUsuarios);
 				visibleIF(cU, bU, coU, aU, aP, bP, cP, coP, aV, bV, cV, coV);
 				visibleT(tP, tV);
 				}
@@ -294,6 +297,7 @@ class Ventana extends JFrame{
 		consultasU.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaUsuarios(sqlUsuarios);
 				visibleIF(coU, bU, aU, cU, aP, bP, cP, coP, aV, bV, cV, coV);
 				visibleT(tP, tV);
 				}
@@ -682,6 +686,32 @@ class Ventana extends JFrame{
 	
 	
 //-----------------------------------------MÉTODOS USUARIOS-------------------------------------------------
+	public void mostrarTablaUsuarios(String sql) {
+		ResultSetTableModel modeloDatos =null;
+		try {
+			modeloDatos = new ResultSetTableModel(controlador,url,sql);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		tU.remove(spU);
+		tablaU = new JTable(modeloDatos);
+		tablaU.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		    	//obtenerRegistroTabla(tablaP);
+		    }
+		});
+		spU = new JScrollPane(tablaU);
+		spU.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		spU.setBounds(0,0,350,190);
+		tU.add(spU);
+		tU.setVisible(true);
+	}
+	
+	
 	public void componentesUsuarios(JInternalFrame inf) {
 		JLabel lblNoUsuario = new JLabel("no_usuario: ");
 		agregarComponente(lblNoUsuario, 20, 100, 80, 25, inf);
