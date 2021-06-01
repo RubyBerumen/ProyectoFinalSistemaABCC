@@ -716,6 +716,16 @@ class Ventana extends JFrame{
 		JLabel lblNoUsuario = new JLabel("no_usuario: ");
 		agregarComponente(lblNoUsuario, 20, 100, 80, 25, inf);
 		JTextField txtNoUsuario = new JTextField();
+		txtNoUsuario.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')||(code==KeyEvent.VK_BACK_SPACE)) {
+					txtNoUsuario.setEditable(true);
+				}else{
+					txtNoUsuario.setEditable(false);
+				}
+			}
+		});
 		agregarComponente(txtNoUsuario, 100, 100, 110, 25, inf);
 		
 		JLabel lblNombre = new JLabel("Nombre: ");
@@ -735,7 +745,7 @@ class Ventana extends JFrame{
 		
 		JLabel lblContraseña = new JLabel("Contraseña: ");
 		agregarComponente(lblContraseña, 20, 160, 80, 25, inf);
-		JTextField txtContraseña = new JTextField();
+		JPasswordField txtContraseña = new JPasswordField();
 		agregarComponente(txtContraseña, 105, 160, 105, 25, inf);
 		
 		JLabel lblTipo = new JLabel("Tipo de usuario:");
@@ -753,6 +763,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				restablecerComponentes(txtNoUsuario, txtNombre, txtContraseña, cmbTipo);
+				mostrarTablaUsuarios(sqlUsuarios);
 			}
 		});
 		agregarComponente(btnBorrar, 230, 180, 140, 25, inf);
@@ -764,6 +775,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				inf.setVisible(false);
+				tU.setVisible(false);
 			}
 		});
 		agregarComponente(btnCancelar, 230, 220, 140, 25, inf);
@@ -771,26 +783,106 @@ class Ventana extends JFrame{
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setBackground(moradoObscuro);
 		btnBuscar.setForeground(grisClaro);
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String sql =  "SELECT * FROM usuarios WHERE noUsuario = \""+txtNoUsuario.getText()+"\"";
+				if(txtNoUsuario.getText().equals("")) {
+					JOptionPane.showMessageDialog(rootPane,"Debes ingresar el numero del usuario");
+				}else {
+					mostrarTablaUsuarios(sql);
+				}
+			}
+		});
 		
 		if(inf==aU) {
 			JButton btnAgregar = new JButton("Agregar");
 			btnAgregar.setBackground(moradoObscuro);
 			btnAgregar.setForeground(grisClaro);
+			btnAgregar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					UsuarioDAO uDAO = new UsuarioDAO();
+					if(txtNoUsuario.getText().equals("") || txtNombre.getText().equals("") || txtContraseña.getText().equals("") || (cmbTipo.getSelectedItem().equals("Selecciona tipo de usuario..."))){
+						JOptionPane.showMessageDialog(rootPane,"Debes llenar todos los campos");
+					}else if(cmbTipo.getSelectedItem()=="Gerente") {
+						Usuario u = new Usuario(Byte.parseByte(txtNoUsuario.getText()), txtNombre.getText(), txtContraseña.getText(), "Gerente");
+						if(uDAO.insertarRragistro(u)) {
+							JOptionPane.showMessageDialog(rootPane,"Se agregó correctamente a la base de datos");
+						}else {
+							JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar agregar a la base de datos");
+						}
+					}else if(cmbTipo.getSelectedItem()=="Empleado") {
+						Usuario u = new Usuario(Byte.parseByte(txtNoUsuario.getText()), txtNombre.getText(), txtContraseña.getText(), "Empleado");
+						if(uDAO.insertarRragistro(u)) {
+							JOptionPane.showMessageDialog(rootPane,"Se agregó correctamente a la base de datos");
+						}else {
+							JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar agregar a la base de datos");
+						}
+					}else {
+						
+					}
+					mostrarTablaUsuarios(sqlUsuarios);
+				}
+			});
 			agregarComponente(btnAgregar, 230, 100, 140, 25, inf);
 		}else if(inf==bU) {
+			editableF(txtNombre, txtContraseña, cmbTipo);
 			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
 			JButton btnEliminar = new JButton("Eliminar");
 			btnEliminar.setBackground(moradoObscuro);
 			btnEliminar.setForeground(grisClaro);
+			btnEliminar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String no = txtNoUsuario.getText();
+					UsuarioDAO uDAO = new UsuarioDAO();	
+					if(no.equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar el numero de usuario");
+					}else if(uDAO.eliminarRegistro(no)) {
+						JOptionPane.showMessageDialog(rootPane,"Se eliminó correctamente de la base de datos");
+					}else {
+						JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar eliminar a la base de datos");
+					}
+					mostrarTablaUsuarios(sqlUsuarios);
+				}
+			});
 			agregarComponente(btnEliminar, 230, 140, 140, 25, inf);
 		}else if(inf==cU) {
 			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
 			JButton btnGuardar = new JButton("Guardar cambios");
 			btnGuardar.setBackground(moradoObscuro);
 			btnGuardar.setForeground(grisClaro);
+			btnGuardar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					UsuarioDAO uDAO = new UsuarioDAO();
+					if (txtNoUsuario.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Debes ingresar el numero de usuario");
+					}else if(txtNombre.getText().equals("")||txtNombre.getText().equals("")||txtContraseña.getText().equals("")||cmbTipo.getSelectedItem().equals("Selecciona tipo de usuario...")){
+						JOptionPane.showMessageDialog(null, "Debes completar todos los campos");
+					}else if(cmbTipo.getSelectedItem().equals("Gerente")) {
+						Usuario u = new Usuario(Byte.parseByte(txtNoUsuario.getText()), txtNombre.getText(), txtContraseña.getText(), "Gerente");
+						if (uDAO.modificarRegistro(u)) {
+							JOptionPane.showMessageDialog(null, "Datos de usuario modificados exitosamente");
+						}else {
+							JOptionPane.showMessageDialog(null, "No se pudieron modificar los datos del usuario");
+						}
+					}else if(cmbTipo.getSelectedItem().equals("Empleado")) {
+						Usuario u = new Usuario(Byte.parseByte(txtNoUsuario.getText()), txtNombre.getText(), txtContraseña.getText(), "Empleado");
+						if(uDAO.modificarRegistro(u)) {
+							JOptionPane.showMessageDialog(rootPane,"Datos de usuario modificados exitosamente");
+						}else {
+							JOptionPane.showMessageDialog(rootPane,"No se pudieron modificar los datos del usuario");
+						}
+					}else {
+						
+					}
+					mostrarTablaUsuarios(sqlUsuarios);
+				}
+				
+			});
 			agregarComponente(btnGuardar, 230, 140, 140, 25, inf);
-		}else if(inf==coU) {
-			agregarComponente(btnBuscar, 230, 100, 140, 25, inf);
 		}else {
 		}	
 	}

@@ -1,25 +1,27 @@
 package modelo;
 
 public class Usuario {
-	private byte idUsuario;
+	private byte noUsuario;
 	private String nombre;
-	private String apellidos;
 	private String contraseña;
+	private String tipo;
 	
-	public Usuario(byte idUsuario, String nombre, String apellidos, String contraseña) {
-		this.idUsuario = idUsuario;
+	public Usuario(byte noUsuario, String nombre, String contraseña, String tipo) {
+		this.noUsuario = noUsuario;
 		this.nombre = nombre;
-		this.apellidos = apellidos;
 		this.contraseña = contraseña;
+		this.tipo = tipo;
 	}
+	
 
 
-	public byte getIdUsuario() {
-		return idUsuario;
+	public byte getNoUsuario() {
+		return noUsuario;
 	}
-	public void setIdUsuario(byte idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setNoUsuario(byte noUsuario) {
+		this.noUsuario = noUsuario;
 	}
+
 
 	public String getNombre() {
 		return nombre;
@@ -28,12 +30,6 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
-	public String getApellidos() {
-		return apellidos;
-	}
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
 
 	public String getContraseña() {
 		return contraseña;
@@ -41,6 +37,15 @@ public class Usuario {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
+
+	
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 
 
 	public static void main(String[] args) {

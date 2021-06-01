@@ -21,7 +21,7 @@ public class UsuarioDAO {
 	public boolean insertarRragistro(Usuario u) {
 		boolean resultado = false;
 		
-		String sql="INSERT INTO usuarios VALUES('"+u.getIdUsuario()+"', '"+u.getNombre()+"', '"+u.getApellidos()+"', '"+u.getContraseña()+"');";
+		String sql="INSERT INTO usuarios VALUES('"+u.getNoUsuario()+"', '"+u.getNombre()+"', '"+u.getContraseña()+"', '"+u.getTipo()+"');";
 		resultado = conexion.ejecutarInstruccion(sql);
 		
 		return resultado;
@@ -32,9 +32,8 @@ public class UsuarioDAO {
 		
 		boolean resultado = false;
 		
-		// DELETE FROM alumnos WHERE numControl = 'S19070070';
 		
-		String sql =  "DELETE FROM Usuarios WHERE idUsuario = \""+id+"\"";
+		String sql =  "DELETE FROM Usuarios WHERE noUsuario = \""+id+"\"";
 		resultado = conexion.ejecutarInstruccion(sql);
 		
 		return resultado;
@@ -45,9 +44,9 @@ public class UsuarioDAO {
 		
 		boolean resultado = false;
 
-		
-		String sql = "UPDATE Usuarios SET idusuario='"+u.getIdUsuario()+"', Nombre='"+u.getNombre()+"', Apellidos='"+u.getApellidos()+"', Contraseña="+u.getContraseña()+"';";
-		
+		String sql = "UPDATE usuarios SET Nombre='"+u.getNombre()+"', Contraseña='"+u.getContraseña()+"', Tipo='"+u.getTipo()+"'"
+				+" WHERE noUsuario = '" + u.getNoUsuario()+"';";
+		                
 		
 		resultado = conexion.ejecutarInstruccion(sql);
 		
@@ -58,9 +57,7 @@ public class UsuarioDAO {
 	public ArrayList<Usuario> buscarUsuario (String filtro){
 		ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 		
-		String sql = "SELECT * FROM Usuarios";
-		
-		ResultSet rs = conexion.ejecutarConsulta(sql);
+		ResultSet rs = conexion.ejecutarConsulta(filtro);
 		
 		try {
 			if(rs.next()) {
