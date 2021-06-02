@@ -22,7 +22,7 @@ import javax.swing.border.TitledBorder;
 
 
 
-class Login extends JFrame{
+class Login extends JFrame  {
 	
 	JLabel lblUsuario, lblContraseña;
 	JTextField jtfUsuario;
@@ -33,6 +33,8 @@ class Login extends JFrame{
 	JComboBox <String> cmbTipo;
 	Color moradoObscuro = new Color(133,69,107);
 	Color grisClaro = new Color(212,212,212);
+	UsuarioDAO uDAO = new UsuarioDAO();
+	boolean mostrarUsuarios = false;
 	
 	public Login() throws IOException {
 		getContentPane().setLayout(null);
@@ -42,7 +44,6 @@ class Login extends JFrame{
 		setLocationRelativeTo(null);
 		setTitle("Ingresar");
 		setVisible(true);
-		
 		
 		imagen = ImageIO.read(new File("./archivos/user.png"));
 		imagen1 = new JLabel(new ImageIcon(imagen));
@@ -73,16 +74,52 @@ class Login extends JFrame{
 		cmbTipo.setFont(new Font("Berlin Sans FB", Font.PLAIN, 16));
 		cmbTipo.setBackground(moradoObscuro);
 		cmbTipo.setForeground(grisClaro);
-		add(cmbTipo);
+		//add(cmbTipo);
 		
 		btnIngresar = new JButton("Ingresar");
 		btnIngresar.setBounds(95, 380, 100, 35);
 		btnIngresar.setBackground(moradoObscuro);
 		btnIngresar.setForeground(grisClaro);
 		btnIngresar.setFont(new Font("Berlin Sans FB", Font.PLAIN, 20));
+		btnIngresar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (verificar()) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							if(mostrarUsuarios) {
+								new Ventana();
+							}else {
+								new Ventana().usuarios.setVisible(false);
+							}
+						}
+					});
+					setVisible(false);
+				}else {
+					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+				}
+			}
+		});
 		add(btnIngresar);	
+	}
+	public boolean verificar() {
+		try {
+			ArrayList<Usuario> listaUsuarios = uDAO.buscarUsuario("SELECT * FROM Usuarios WHERE nombre = '"+jtfUsuario.getText()+"'");
+			if (listaUsuarios.size()!=0) {
+				Usuario usuario = listaUsuarios.get(0);
+				mostrarUsuarios = usuario.getTipo().equals("Gerente");
+				return usuario.getContraseña().equals(jpfContraseña.getText());
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		return false;
 		
 	}
+
+	
 	
 }
 
@@ -803,8 +840,10 @@ class Ventana extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					UsuarioDAO uDAO = new UsuarioDAO();
-					if(txtNoUsuario.getText().equals("") || txtNombre.getText().equals("") || txtContraseña.getText().equals("") || (cmbTipo.getSelectedItem().equals("Selecciona tipo de usuario..."))){
+					if(txtNoUsuario.getText().equals("") || txtNombre.getText().equals("") || txtContraseña.getText().equals("") ){
 						JOptionPane.showMessageDialog(rootPane,"Debes llenar todos los campos");
+					}else if((cmbTipo.getSelectedItem().equals("Selecciona tipo de usuario..."))) {
+						JOptionPane.showMessageDialog(rootPane,"Debes seleccionar el tipo de usuario");
 					}else if(cmbTipo.getSelectedItem()=="Gerente") {
 						Usuario u = new Usuario(Byte.parseByte(txtNoUsuario.getText()), txtNombre.getText(), txtContraseña.getText(), "Gerente");
 						if(uDAO.insertarRragistro(u)) {
@@ -1075,6 +1114,16 @@ class Ventana extends JFrame{
 		JLabel lblNoVenta = new JLabel("no_venta: ");
 		agregarComponente(lblNoVenta, 20, 100, 60, 25, inf);
 		JTextField txtNoVenta = new JTextField();
+		txtNoVenta.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')||(code==KeyEvent.VK_BACK_SPACE)) {
+					txtNoVenta.setEditable(true);
+				}else{
+					txtNoVenta.setEditable(false);
+				}
+			}
+		});
 		agregarComponente(txtNoVenta, 85, 100, 100, 25, inf);
 		
 		JLabel lblProductos = new JLabel("Productos: ");
@@ -1306,14 +1355,14 @@ public class VentanaPrincipal {
 
 	public static void main(String[] args) {
 		
-		SwingUtilities.invokeLater(new Runnable() {
+		/*SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				new Ventana();
 			}
-		});
+		});*/
 		
-		/*SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -1322,7 +1371,7 @@ public class VentanaPrincipal {
 					e.printStackTrace();
 				}
 			}
-		});*/
+		});
 
 	}
 
