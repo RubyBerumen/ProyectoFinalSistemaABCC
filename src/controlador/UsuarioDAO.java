@@ -1,5 +1,6 @@
 package controlador;
 import modelo.Usuario;
+import vista.Login;
 import conexionBD.ConexionBD;
 
 import java.sql.ResultSet;
@@ -8,10 +9,18 @@ import java.util.ArrayList;
 
 //DAO - Data Access Object
 
-public class UsuarioDAO {
+public class UsuarioDAO implements Runnable{
 
 	ConexionBD conexion;
 	
+	private String filtro;
+
+	public void setFiltro(String filtro) {
+		this.filtro = filtro;
+	}
+
+	
+
 	public UsuarioDAO() {
 		conexion = new ConexionBD();
 	}
@@ -66,15 +75,28 @@ public class UsuarioDAO {
 							rs.getString(2),
 							rs.getString(3),
 							rs.getString(4)));
+					Login.bandera = true;
 				}while(rs.next());
+			}else {
+				Login.bandera = false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Login.bandera = false;
 		}
 		
 		
 		return listaUsuarios;
 	}
+
+
+	@Override
+	public void run() {
+		buscarUsuario(filtro);
+		
+	}
+
+
 	
 	
 	
