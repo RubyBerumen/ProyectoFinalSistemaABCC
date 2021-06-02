@@ -39,7 +39,7 @@ class Login extends JFrame  {
 	public Login() throws IOException {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setSize(300,500);
+		setSize(300,470);
 		setBackground(new Color(165,202,210));
 		setLocationRelativeTo(null);
 		setTitle("Ingresar");
@@ -77,7 +77,7 @@ class Login extends JFrame  {
 		//add(cmbTipo);
 		
 		btnIngresar = new JButton("Ingresar");
-		btnIngresar.setBounds(95, 380, 100, 35);
+		btnIngresar.setBounds(95, 340, 100, 35);
 		btnIngresar.setBackground(moradoObscuro);
 		btnIngresar.setForeground(grisClaro);
 		btnIngresar.setFont(new Font("Berlin Sans FB", Font.PLAIN, 20));
@@ -1127,12 +1127,7 @@ class Ventana extends JFrame{
 		
 		tV.remove(spV);
 		tablaV = new JTable(modeloDatos);
-		tablaV.addMouseListener(new java.awt.event.MouseAdapter() {
-		    @Override
-		    public void mouseClicked(java.awt.event.MouseEvent evt) {
-		    	//obtenerRegistroTabla(tablaP);
-		    }
-		});
+
 		spV = new JScrollPane(tablaV);
 		spV.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		spV.setBounds(0,0,370,190);
@@ -1200,16 +1195,39 @@ class Ventana extends JFrame{
 		cmbFecha[2].setForeground(grisClaro);
 		
 		JLabel lbltotal = new JLabel("Total: ");
+		
 		agregarComponente(lbltotal, 20, 290, 40, 25, inf);
 		JTextField txtTotal = new JTextField();
+		txtTotal.setEditable(false);
 		txtTotal.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				int code=ke.getKeyCode();
-				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')|| ke.getKeyChar()=='.'||(code==KeyEvent.VK_BACK_SPACE)) {
+				/*if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')|| ke.getKeyChar()=='.'||(code==KeyEvent.VK_BACK_SPACE)||(code==KeyEvent.VK_ENTER)) {
 					txtTotal.setEditable(true);
 				}else{
 					txtTotal.setEditable(false);
-				}
+				}*/
+				
+				/*if(code!=KeyEvent.VK_ENTER) {
+					txtTotal.setEditable(false);
+				}*/
+				
+				
+				ProductoDAO pDAO = new ProductoDAO();
+				String productos = txtProductos.getText();
+				String[] split = productos.split(",");
+				double sum = 0;
+		        for (int i=0; i<split.length; i++) {
+		        	ArrayList<Producto>ListaProductos =pDAO.buscarProducto("SELECT * FROM Producto WHERE idProducto ='"+split[i]+"'");
+		        	System.out.println(split[i]);
+		        	if(ListaProductos.size()!=0) {
+		        		Producto pro = ListaProductos.get(0);
+		        		sum+= pro.getPrecio();
+		        	}
+		        }
+				txtTotal.setText(Double.toString(sum));
+				System.out.println(sum);
+				
 			}
 		});
 		agregarComponente(txtTotal, 65, 290, 120, 25, inf);
@@ -1267,6 +1285,13 @@ class Ventana extends JFrame{
 						JOptionPane.showMessageDialog(null, "Debes completar los campos");
 					}else if(vDAO.insertarRragistro(v)) {
 						JOptionPane.showMessageDialog(rootPane,"Se agregó correctamente a la base de datos");
+						/*ProductoDAO pDAO = new ProductoDAO();
+						String productos = txtProductos.getText();
+						String[] split = productos.split(",");
+				        for (int i=0; i<split.length; i++) {
+				        	 System.out.println(split[i]);
+				        	 pDAO.eliminarRegistro(split[i]);
+				        }*/
 					}else {
 						JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar agregar a la base de datos");
 					}
@@ -1638,8 +1663,6 @@ class Ventana extends JFrame{
 			}
 		}
 	}
-	
-	
 	
 	
 	
