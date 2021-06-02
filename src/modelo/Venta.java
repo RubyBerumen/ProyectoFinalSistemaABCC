@@ -1,28 +1,26 @@
 package modelo;
 
 public class Venta {
-	private int idVenta;
+	private int noVenta;
 	private String productos;
 	private String fecha;
-	private String hora;
-	private double cantidad;
-	
-	public Venta(int idVenta, String productos, String fecha, String hora, double cantidad) {
-		super();
-		this.idVenta = idVenta;
+	private double total;
+
+	public Venta(int noVenta, String productos, String fecha, double total) {
+		this.noVenta = noVenta;
 		this.productos = productos;
 		this.fecha = fecha;
-		this.hora = hora;
-		this.cantidad = cantidad;
+		this.total = total;
 	}
 	
-	
-	public int getIdVenta() {
-		return idVenta;
+
+	public int getNoVenta() {
+		return noVenta;
 	}
-	public void setIdVenta(int idVenta) {
-		this.idVenta = idVenta;
+	public void setNoVenta(int noVenta) {
+		this.noVenta = noVenta;
 	}
+
 
 	public String getProductos() {
 		return productos;
@@ -31,6 +29,7 @@ public class Venta {
 		this.productos = productos;
 	}
 
+
 	public String getFecha() {
 		return fecha;
 	}
@@ -38,19 +37,14 @@ public class Venta {
 		this.fecha = fecha;
 	}
 
-	public String getHora() {
-		return hora;
+
+	public double getTotal() {
+		return total;
 	}
-	public void setHora(String hora) {
-		this.hora = hora;
+	public void setTotal(double total) {
+		this.total = total;
 	}
 
-	public double getCantidad() {
-		return cantidad;
-	}
-	public void setCantidad(double cantidad) {
-		this.cantidad = cantidad;
-	}
 
 
 	public static void main(String[] args) {

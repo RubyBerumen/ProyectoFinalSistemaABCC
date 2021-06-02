@@ -21,7 +21,7 @@ public class VentaDAO {
 	public boolean insertarRragistro(Venta v) {
 		boolean resultado = false;
 		
-		String sql="INSERT INTO Ventas VALUES('"+v.getIdVenta()+"', '"+v.getProductos()+"', '"+v.getFecha()+"', '"+v.getHora()+"', '"+v.getCantidad()+"');";
+		String sql="INSERT INTO Ventas VALUES('"+v.getNoVenta()+"', '"+v.getProductos()+"', '"+v.getFecha()+"', '"+v.getTotal()+"');";
 		resultado = conexion.ejecutarInstruccion(sql);
 		
 		return resultado;
@@ -32,7 +32,7 @@ public class VentaDAO {
 		
 		boolean resultado = false;
 		
-		String sql =  "DELETE FROM Ventas WHERE idVenta = \""+id+"\"";
+		String sql =  "DELETE FROM Ventas WHERE noVenta = \""+id+"\"";
 		resultado = conexion.ejecutarInstruccion(sql);
 		
 		return resultado;
@@ -43,7 +43,8 @@ public class VentaDAO {
 		
 		boolean resultado = false;
 		
-		String sql = "UPDATE Ventas SET idVenta='"+v.getIdVenta()+"', Productos='"+v.getProductos()+"', Fecha='"+v.getFecha()+"',  Hora= "+v.getHora()+", Cantidad = "+v.getCantidad()+"';";
+		String sql = "UPDATE Ventas SET noVenta='"+v.getNoVenta()+"', Productos='"+v.getProductos()+"', Fecha='"+v.getFecha()+"', Total = "+v.getTotal()+"'"
+				+"WHERE noVenta = '"+v.getNoVenta()+"';";
 		
 		resultado = conexion.ejecutarInstruccion(sql);
 		
@@ -54,9 +55,7 @@ public class VentaDAO {
 	public ArrayList<Venta> buscarVentas (String filtro){
 		ArrayList<Venta> listaVentas = new ArrayList<>();
 		
-		String sql = "SELECT * FROM Ventas";
-		
-		ResultSet rs = conexion.ejecutarConsulta(sql);
+		ResultSet rs = conexion.ejecutarConsulta(filtro);
 		
 		try {
 			if(rs.next()) {
@@ -64,8 +63,7 @@ public class VentaDAO {
 					listaVentas.add(new Venta(rs.getInt(1),
 							rs.getString(2),
 							rs.getString(3),
-							rs.getString(4),
-							rs.getDouble(5)));
+							rs.getDouble(4)));
 				}while(rs.next());
 			}
 		} catch (SQLException e) {

@@ -216,6 +216,7 @@ class Ventana extends JFrame{
 		altasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaVentas(sqlVentas);
 				visibleIF(aV, bV, cV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
 				visibleT(tP, tU);
 				}
@@ -224,6 +225,7 @@ class Ventana extends JFrame{
 		bajasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaVentas(sqlVentas);
 				visibleIF(bV, aV, cV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
 				visibleT(tP, tU);
 				}
@@ -232,6 +234,7 @@ class Ventana extends JFrame{
 		cambiosV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaVentas(sqlVentas);
 				visibleIF(cV, bV, aV, coV, aP, bP, cP, coP, aU, bU, cU, coU);
 				visibleT(tP, tU);
 				}
@@ -240,6 +243,7 @@ class Ventana extends JFrame{
 		consultasV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaVentas(sqlVentas);
 				visibleIF(coV, bV, cV, aV, aP, bP, cP, coP, aU, bU, cU, coU);
 				visibleT(tP, tU);
 				
@@ -1110,6 +1114,32 @@ class Ventana extends JFrame{
 	
 
 //=============================================METODOS VENTAS======================================
+	public void mostrarTablaVentas(String sql) {
+		ResultSetTableModel modeloDatos =null;
+		try {
+			modeloDatos = new ResultSetTableModel(controlador,url,sql);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		tV.remove(spV);
+		tablaV = new JTable(modeloDatos);
+		tablaV.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		    	//obtenerRegistroTabla(tablaP);
+		    }
+		});
+		spV = new JScrollPane(tablaV);
+		spV.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		spV.setBounds(0,0,350,190);
+		tV.add(spV);
+		tV.setVisible(true);
+	}
+	
+	
 	public void componentesVentas(JInternalFrame inf) {
 		JLabel lblNoVenta = new JLabel("no_venta: ");
 		agregarComponente(lblNoVenta, 20, 100, 60, 25, inf);
@@ -1126,7 +1156,7 @@ class Ventana extends JFrame{
 		});
 		agregarComponente(txtNoVenta, 85, 100, 100, 25, inf);
 		
-		JLabel lblProductos = new JLabel("Productos: ");
+		JLabel lblProductos = new JLabel("Productos (id): ");
 		agregarComponente(lblProductos, 20, 130, 80, 25, inf);
 		JTextArea txtProductos = new JTextArea();
 		JScrollPane sp = new JScrollPane(txtProductos);
@@ -1190,6 +1220,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				restablecerComponentes(txtNoVenta, txtProductos, cmbFecha[0], cmbFecha[1], cmbFecha[2], txtTotal);
+				mostrarTablaVentas(sqlVentas);
 			}
 		});
 		agregarComponente(btnBorrar, 210, 226, 140, 25, inf);
@@ -1201,6 +1232,7 @@ class Ventana extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				inf.setVisible(false);
+				tV.setVisible(false);
 			}
 		});
 		agregarComponente(btnCancelar, 210, 290, 140, 25, inf);
@@ -1355,14 +1387,14 @@ public class VentanaPrincipal {
 
 	public static void main(String[] args) {
 		
-		/*SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				new Ventana();
 			}
-		});*/
+		});
 		
-		SwingUtilities.invokeLater(new Runnable() {
+		/*SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -1371,7 +1403,7 @@ public class VentanaPrincipal {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 
 	}
 
