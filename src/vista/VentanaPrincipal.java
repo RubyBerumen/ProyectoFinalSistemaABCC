@@ -170,7 +170,7 @@ class Ventana extends JFrame{
 		cV = crearIF(cV, "Ventas", "Modificar", 380, 365);
 		componentesVentas(cV);
 		coV = crearIF(coV, "Ventas", "Buscar", 380, 365);
-		componentesVentas(coV);
+		componentesVentasConsultas(coV);
 		
 		//PRODUCTOS-------------------------------------------------------
 		aP = crearIF(aP, "Productos", "Agregar", 400, 335);
@@ -1331,7 +1331,204 @@ class Ventana extends JFrame{
 	}
 	
 	
-//----------------------------------------------METODOS GENERALES------------------------------------------------	
+	public void componentesVentasConsultas(JInternalFrame inf){
+		ButtonGroup bg = new ButtonGroup();
+		
+		JRadioButton rbTodos = new JRadioButton("Todos");
+		bg.add(rbTodos);
+		agregarComponente(rbTodos, 20, 75, 80, 25, inf);
+		
+		JRadioButton  rbNoVenta = new JRadioButton ("no_venta: ");
+		bg.add(rbNoVenta);
+		agregarComponente(rbNoVenta, 20, 100, 90, 25, inf);
+		JTextField txtNoVenta = new JTextField();
+		txtNoVenta.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')||(code==KeyEvent.VK_BACK_SPACE)) {
+					txtNoVenta.setEditable(true);
+				}else{
+					txtNoVenta.setEditable(false);
+				}
+			}
+		});
+		txtNoVenta.setEditable(false);
+		agregarComponente(txtNoVenta, 115, 100, 90, 25, inf);
+		
+		JRadioButton  rbProductos = new JRadioButton ("Productos (id): ");
+		bg.add(rbProductos);
+		agregarComponente(rbProductos, 20, 130, 130, 25, inf);
+		JTextArea txtProductos = new JTextArea();
+		JScrollPane sp = new JScrollPane(txtProductos);
+		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		txtProductos.setEditable(false);
+		agregarComponente(sp, 20, 155, 185, 70, inf);
+		
+		JRadioButton rbFecha = new JRadioButton ("Fecha: ");
+		bg.add(rbFecha);
+		agregarComponente(rbFecha, 20, 230, 70, 25, inf);
+		JComboBox<String> cmbFecha[]=new JComboBox[3];
+		
+		for (int i=0;i<cmbFecha.length;i+=1) {
+			cmbFecha[i]=new JComboBox<String>();
+			agregarComponente(cmbFecha[i], 20+(i*61), 255, 61, 25, inf);
+		}
+		for (int i = 1; i <= 31; i+=1) {	
+			if (i<10) {
+				cmbFecha[0].addItem("0"+i);
+			}else {
+				cmbFecha[0].addItem(""+i);
+			}
+		}
+		cmbFecha[0].setBackground(moradoObscuro);
+		cmbFecha[0].setForeground(grisClaro);
+		cmbFecha[1].addItem("Ene");
+		cmbFecha[1].addItem("Feb");
+		cmbFecha[1].addItem("Mar");
+		cmbFecha[1].addItem("Abr");
+		cmbFecha[1].addItem("May");
+		cmbFecha[1].addItem("Jun");
+		cmbFecha[1].addItem("Jul");
+		cmbFecha[1].addItem("Ago");
+		cmbFecha[1].addItem("Sep");
+		cmbFecha[1].addItem("Oct");
+		cmbFecha[1].addItem("Nov");
+		cmbFecha[1].addItem("Dic");
+		cmbFecha[1].setBackground(moradoObscuro);
+		cmbFecha[1].setForeground(grisClaro);
+		for (int i = 2021; i <= 2030; i+=1) {cmbFecha[2].addItem(""+i);}
+		cmbFecha[2].setBackground(moradoObscuro);
+		cmbFecha[2].setForeground(grisClaro);
+		cmbFecha[0].setEnabled(false);
+		cmbFecha[1].setEnabled(false);
+		cmbFecha[2].setEnabled(false);
+		
+		JRadioButton  rbTotal = new JRadioButton ("Total: ");
+		bg.add(rbTotal);
+		agregarComponente(rbTotal, 20, 290, 70, 25, inf);
+		JTextField txtTotal = new JTextField();
+		txtTotal.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')|| ke.getKeyChar()=='.'||(code==KeyEvent.VK_BACK_SPACE)) {
+					txtTotal.setEditable(true);
+				}else{
+					txtTotal.setEditable(false);
+				}
+			}
+		});
+		txtTotal.setEditable(false);
+		agregarComponente(txtTotal, 90, 290, 115, 25, inf);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setBackground(moradoObscuro);
+		btnBorrar.setForeground(grisClaro);
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				restablecerComponentes(txtNoVenta, txtProductos, cmbFecha[0], cmbFecha[1], cmbFecha[2], txtTotal);
+				mostrarTablaVentas(sqlVentas);
+			}
+		});
+		agregarComponente(btnBorrar, 230, 226, 120, 25, inf);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBackground(moradoObscuro);
+		btnCancelar.setForeground(grisClaro);
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				inf.setVisible(false);
+				tV.setVisible(false);
+			}
+		});
+		agregarComponente(btnCancelar, 230, 290, 120, 25, inf);
+		
+		rbNoVenta.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtNoVenta.setEditable(true);
+				editableF(txtProductos, cmbFecha[0], cmbFecha[1], cmbFecha[2], txtTotal);
+			}
+		});
+		rbProductos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtProductos.setEditable(true);
+				editableF(txtNoVenta, cmbFecha[0], cmbFecha[1], cmbFecha[2], txtTotal);
+			}
+		});
+		rbFecha.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				editableT(cmbFecha[0],cmbFecha[1],cmbFecha[2]);
+				editableF(txtNoVenta, txtProductos, txtTotal);
+			}
+		});
+		rbTotal.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtTotal.setEditable(true);
+				editableF(txtNoVenta, cmbFecha[0], cmbFecha[1], cmbFecha[2], txtProductos);
+			}
+		});
+		rbTodos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				editableT(txtNoVenta, txtProductos, cmbFecha[0], cmbFecha[1], cmbFecha[2], txtTotal);
+			}
+		});
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(moradoObscuro);
+		btnBuscar.setForeground(grisClaro);
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String sql;
+				String fecha = cmbFecha[0].getSelectedItem().toString()+"/"+cmbFecha[1].getSelectedItem().toString()+"/"+cmbFecha[2].getSelectedItem().toString();
+				if(rbTodos.isSelected()) {
+					sql = "SELECT * FROM ventas WHERE noVenta='"+txtNoVenta.getText()+"' AND Productos='"+txtProductos.getText()+
+							"' AND Fecha='"+fecha+"' AND Total = '"+txtTotal.getText()+"';";
+					if(txtNoVenta.getText().equals("")||txtProductos.getText().equals("")||txtTotal.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes llenar todos los campos");
+					}else {
+						mostrarTablaVentas(sql);
+					}
+				}else if(rbNoVenta.isSelected()) {
+					sql =  "SELECT * FROM ventas WHERE noVenta = \""+txtNoVenta.getText()+"\"";
+					if(txtNoVenta.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar el número de la venta");
+					}else {
+						mostrarTablaVentas(sql);
+					}
+				}else if(rbProductos.isSelected()) {
+					sql =  "SELECT * FROM ventas WHERE Productos = \""+txtProductos.getText()+"\"";
+					if(txtProductos.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar los id de los productos");
+					}else {
+						mostrarTablaVentas(sql);
+					}
+				}else if(rbFecha.isSelected()) {
+					sql =  "SELECT * FROM ventas WHERE Fecha = \""+fecha+"\"";
+						mostrarTablaVentas(sql);
+				}else if(rbTotal.isSelected()) {
+					sql =  "SELECT * FROM ventas WHERE Total = \""+txtTotal.getText()+"\"";
+					if(txtTotal.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar el total.");
+					}else {
+						mostrarTablaVentas(sql);
+					}
+				}else {
+				}
+			}//action preformed
+		});
+		agregarComponente(btnBuscar, 230, 95, 120, 30, inf);
+		
+	}
+	
+	
+//==========================================METODOS GENERALES==============================================0
 	public JInternalFrame crearIF(JInternalFrame inf, String tab, String op, int w, int h) {
 		inf = new JInternalFrame();
 		inf.getContentPane().setLayout(null);
