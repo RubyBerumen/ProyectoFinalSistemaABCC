@@ -134,7 +134,7 @@ class Ventana extends JFrame{
 	JInternalFrame aV,bV,cV,coV;
 	JInternalFrame aP,bP,cP,coP;
 	JInternalFrame aU,bU,cU,coU;
-	JInternalFrame tV, tP, tU;
+	JInternalFrame tV, tP, tU, tP2;
 	JDesktopPane dp = new JDesktopPane();
 	
 	String controlador = "com.mysql.cj.jdbc.Driver";
@@ -193,9 +193,10 @@ class Ventana extends JFrame{
 		componentesUsuariosConsultas(coU);
 		
 		//TABLAS-----------------------------------------------------------
-		tV = crearIfTabla(tV, "Tabla ventas", 350, 215, 400, 10);
+		tV = crearIfTabla(tV, "Tabla ventas", 373, 215, 400, 10);
 		tP = crearIfTabla(tP, "Tabla productos", 350, 215, 420, 10);
 		tU = crearIfTabla(tU, "Tabla usuarios", 350, 215, 420, 10);
+		tP2 = crearIfTabla(tP2, "Tabla productos", 350, 150, 420, 225 );
 		
 		//-----------------------------------------------------------------
 		
@@ -1134,7 +1135,7 @@ class Ventana extends JFrame{
 		});
 		spV = new JScrollPane(tablaV);
 		spV.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		spV.setBounds(0,0,350,190);
+		spV.setBounds(0,0,370,190);
 		tV.add(spV);
 		tV.setVisible(true);
 	}
@@ -1157,7 +1158,7 @@ class Ventana extends JFrame{
 		agregarComponente(txtNoVenta, 85, 100, 100, 25, inf);
 		
 		JLabel lblProductos = new JLabel("Productos (id): ");
-		agregarComponente(lblProductos, 20, 130, 80, 25, inf);
+		agregarComponente(lblProductos, 20, 130, 90, 25, inf);
 		JTextArea txtProductos = new JTextArea();
 		JScrollPane sp = new JScrollPane(txtProductos);
 		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1240,27 +1241,91 @@ class Ventana extends JFrame{
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setBackground(moradoObscuro);
 		btnBuscar.setForeground(grisClaro);
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String sql =  "SELECT * FROM ventas WHERE noVenta = \""+txtNoVenta.getText()+"\"";
+				if(txtNoVenta.getText().equals("")) {
+					JOptionPane.showMessageDialog(rootPane,"Debes ingresar el numero de la venta");
+				}else {
+					mostrarTablaVentas(sql);
+				}
+			}
+		});
 		
 		if(inf==aV) {
 			JButton btnAgregar = new JButton("Agregar");
 			btnAgregar.setBackground(moradoObscuro);
 			btnAgregar.setForeground(grisClaro);
+			btnAgregar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String fecha = cmbFecha[0].getSelectedItem().toString()+"/"+cmbFecha[1].getSelectedItem().toString()+"/"+cmbFecha[2].getSelectedItem().toString();
+					Venta v = new Venta(Integer.parseInt(txtNoVenta.getText()),txtProductos.getText(),fecha,Double.parseDouble(txtTotal.getText()));
+					VentaDAO vDAO = new VentaDAO();
+					if (txtNoVenta.getText().equals("")||txtProductos.getText().equals("")||txtTotal.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Debes completar los campos");
+					}else if(vDAO.insertarRragistro(v)) {
+						JOptionPane.showMessageDialog(rootPane,"Se agregó correctamente a la base de datos");
+					}else {
+						JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar agregar a la base de datos");
+					}
+					mostrarTablaVentas(sqlVentas);
+				}
+				
+			});
 			agregarComponente(btnAgregar, 210, 100, 140, 25, inf);
-			txtNoVenta.setEditable(false);
 		}else if(inf==bV) {
+			txtProductos.setEditable(false);
+			txtTotal.setEditable(false);
+			cmbFecha[0].setEnabled(false);
+			cmbFecha[1].setEnabled(false);
+			cmbFecha[2].setEnabled(false);
 			agregarComponente(btnBuscar, 210, 100, 140, 25, inf);
 			JButton btnEliminar = new JButton("Eliminar");
 			btnEliminar.setBackground(moradoObscuro);
 			btnEliminar.setForeground(grisClaro);
+			btnEliminar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String no = txtNoVenta.getText();
+					VentaDAO vDAO = new VentaDAO();
+					if(txtNoVenta.getText().equals("")) {
+						JOptionPane.showMessageDialog(rootPane,"Debes ingresar el numero de venta");
+					}else if(vDAO.eliminarRegistro(no)) {
+						JOptionPane.showMessageDialog(rootPane,"Se eliminó correctamente de la base de datos");
+					}else {
+						JOptionPane.showMessageDialog(rootPane,"Hubo un error al intentar eliminar a la base de datos");
+					}
+					mostrarTablaVentas(sqlVentas);
+				}
+			});
 			agregarComponente(btnEliminar, 210, 163, 140, 25, inf);
 		}else if(inf==cV) {
 			agregarComponente(btnBuscar, 210, 100, 140, 25, inf);
 			JButton btnGuardar = new JButton("Guardar cambios");
 			btnGuardar.setBackground(moradoObscuro);
 			btnGuardar.setForeground(grisClaro);
+			btnGuardar.addActionListener(new ActionListener() {
+				String fecha;
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					VentaDAO vDAO = new VentaDAO();
+					if (txtNoVenta.getText().equals("")||txtProductos.getText().equals("")||txtTotal.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Debes completar los campos");
+					}else {
+						fecha = cmbFecha[0].getSelectedItem().toString()+"/"+cmbFecha[1].getSelectedItem().toString()+"/"+cmbFecha[2].getSelectedItem().toString();
+						Venta v = new Venta(Integer.parseInt(txtNoVenta.getText()),txtProductos.getText(),fecha,Double.parseDouble(txtTotal.getText()));
+						if(vDAO.modificarRegistro(v)) {
+							JOptionPane.showMessageDialog(rootPane, "Datos de venta modificados exitosamente");
+						}else {
+							JOptionPane.showMessageDialog(rootPane, "No se pudieron modificar los datos de la venta");
+						}
+						mostrarTablaVentas(sqlVentas);
+					}
+				}
+			});
 			agregarComponente(btnGuardar, 210, 163, 140, 25, inf);
-		}else if(inf==coV) {
-			agregarComponente(btnBuscar, 210, 100, 140, 25, inf);
 		}else {
 		}	
 	}

@@ -43,8 +43,8 @@ public class VentaDAO {
 		
 		boolean resultado = false;
 		
-		String sql = "UPDATE Ventas SET noVenta='"+v.getNoVenta()+"', Productos='"+v.getProductos()+"', Fecha='"+v.getFecha()+"', Total = "+v.getTotal()+"'"
-				+"WHERE noVenta = '"+v.getNoVenta()+"';";
+		String sql = "UPDATE ventas SET Productos='"+v.getProductos()+"', Fecha='"+v.getFecha()+"', Total = '"+v.getTotal()+"'"
+				+" WHERE noVenta = '"+v.getNoVenta()+"';";
 		
 		resultado = conexion.ejecutarInstruccion(sql);
 		
